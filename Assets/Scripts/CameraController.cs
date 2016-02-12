@@ -5,7 +5,6 @@ namespace Assets.Scripts
     public class CameraController : MonoBehaviour
     {
         public GameObject Target = null;
-        public Rigidbody TargetRigidbody;
         public float OffsetDistance = 6;
         public float MinOffset = 1;
         public float MaxOffset = 10;
@@ -14,12 +13,13 @@ namespace Assets.Scripts
         private float _elevation = 0;
         private float _dampVelocity;
         private float _targetOffset;
+        private Rigidbody _targetRigidbody;
 
         void Start()
         {
             _targetOffset = OffsetDistance;
             var pm = Target.GetComponentInChildren<PlayerInput>();
-            TargetRigidbody = pm.Driver;
+            _targetRigidbody = pm.Driver;
         }
 
         // Update is called once per frame
@@ -37,7 +37,7 @@ namespace Assets.Scripts
             _elevation += el;
             
             var rot = Quaternion.Euler(_elevation, _azimuth, 0);
-            var pos = rot * new Vector3(0, 0, -OffsetDistance) + TargetRigidbody.position;
+            var pos = rot * new Vector3(0, 0, -OffsetDistance) + _targetRigidbody.position;
             transform.rotation = rot;
             transform.position = pos;
         }
