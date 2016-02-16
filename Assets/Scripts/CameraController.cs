@@ -35,7 +35,7 @@ namespace Assets.Scripts
             _azimuth += az;
             _elevation += el;
 
-            var rot = Quaternion.Euler(_elevation, _azimuth, 0);
+            var rot = Quaternion.identity * Quaternion.Euler(_elevation, _azimuth, 0);
             var pos = rot * new Vector3(0, 0, -OffsetDistance) + TargetRigidbody.position;
             transform.rotation = rot;
             transform.position = pos;
