@@ -361,6 +361,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LengthScale: 0.8
+--- !u!1 &1157480528 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100054, guid: 0300d71fc6681f144a6b1933e4c73af3, type: 3}
+  m_PrefabInternal: {fileID: 443682774}
+--- !u!64 &1157480532
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1157480528}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 0
+  m_Mesh: {fileID: 4300054, guid: 0300d71fc6681f144a6b1933e4c73af3, type: 3}
 --- !u!1 &1291718757
 GameObject:
   m_ObjectHideFlags: 0
@@ -442,7 +458,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1291718757}
-  m_LocalRotation: {x: -0.080187425, y: -0.5291414, z: 0.050318465, w: -0.8432362}
+  m_LocalRotation: {x: -0.08018743, y: -0.5291415, z: 0.05031847, w: -0.84323627}
   m_LocalPosition: {x: -2.302328, y: 2.8056402, z: -2.5108848}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
