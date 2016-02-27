@@ -45,8 +45,8 @@ namespace Assets.Scripts
                 /* Desired move direction in world space */
 
                 var x = Input.GetAxis("Horizontal");
-                var y = Input.GetAxis("Normal");
-                var z = Input.GetAxis("Vertical");
+                var y = Input.GetAxis("Vertical");
+                var z = Input.GetAxis("Normal");
 
                 var right = Camera.main.transform.right * x;
                 var up = Camera.main.transform.up * y;
@@ -55,6 +55,8 @@ namespace Assets.Scripts
 
                 if (move.sqrMagnitude >= MoveDeadzone)
                 {
+                    Debug.DrawRay(transform.position, move);
+
                     if (NextHold == null)
                     {
                         /* Try to find a new hold in that direction */
@@ -115,6 +117,11 @@ namespace Assets.Scripts
                 var q = Quaternion.FromToRotation(gameObject.transform.forward, idealDir);
                 rb.MoveRotation(Quaternion.Lerp(gameObject.transform.rotation, q * gameObject.transform.rotation, PosBlendFactor));
             }
+
+            if (CurrentHold != null)
+                Debug.DrawLine(transform.position, CurrentHold.p, Color.blue);
+            if (NextHold != null)
+                Debug.DrawLine(transform.position, NextHold.p, Color.yellow);
         }
 
         Handholds[] GetNearbyHoldComponents()

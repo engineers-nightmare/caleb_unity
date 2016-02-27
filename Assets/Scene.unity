@@ -128,7 +128,7 @@ Transform:
   m_Children:
   - {fileID: 190466327}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
 --- !u!1 &190466326
 GameObject:
   m_ObjectHideFlags: 0
@@ -597,7 +597,7 @@ GameObject:
   - 23: {fileID: 1601049223}
   - 54: {fileID: 1601049222}
   - 114: {fileID: 1601049221}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -616,16 +616,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 1601049222}
-  MaxGrabDistance: 0.85
-  IdealGrabDistance: 0.55
-  MaxClimbDistance: 1
+  MaxGrabDistance: 0.6
+  IdealGrabDistance: 0.26
+  MaxClimbDistance: 0.9
   MinGrabCosAngle: 0.2
   MoveDeadzone: 0.1
   MinContinueMoveCosAngle: 0
   MinSelectHoldCosAngle: 0.2
   MoveSpeed: 0.01
   PosBlendFactor: 0.1
-  NearbyHoldsRadius: 4
+  NearbyHoldsRadius: 2
 --- !u!54 &1601049222
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -697,7 +697,7 @@ Transform:
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
 --- !u!1 &1826941525
 GameObject:
   m_ObjectHideFlags: 0
@@ -1047,4 +1047,4 @@ Transform:
   - {fileID: 212840704}
   - {fileID: 654717278}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 5
