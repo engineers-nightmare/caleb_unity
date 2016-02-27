@@ -21,6 +21,7 @@ namespace Assets.Scripts
         public float PosBlendFactor = 0.1f;
         public float NearbyHoldsRadius = 4.0f;
         public float MaxRetargetMoveT = 0.4f;
+        public AnimationCurve WeightShiftCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
 
         private float _moveT = 0.0f;
 
@@ -77,8 +78,6 @@ namespace Assets.Scripts
                             possibleRetarget = GetBestHoldInDirection(moveDir, GetNearbyHoldComponents());
                         }
 
-
-
                         if (possibleRetarget != null && possibleRetarget != CurrentHold &&
                             Vector3.Dot(moveDir, holdDir) < Vector3.Dot(moveDir, (possibleRetarget.p - CurrentHold.p).normalized) &&
                             Vector3.Dot(moveDir, holdDir) > MinContinueMoveCosAngle)
@@ -89,8 +88,6 @@ namespace Assets.Scripts
                             NextHold = possibleRetarget;
                         }
                         else {
-
-                            
                             if (Vector3.Dot(moveDir, holdDir) > MinContinueMoveCosAngle)
                             {
                                 _moveT += speedT;
@@ -118,6 +115,8 @@ namespace Assets.Scripts
                 Vector3 idealPos, idealDir;
                 if (NextHold != null)
                 {
+                    var weightT = WeightShiftCurve.Evaluate(_moveT);
+
                     idealPos = Vector3.Lerp(
                         CurrentHold.p + CurrentHold.n * IdealGrabDistance,
                         NextHold.p + NextHold.n * IdealGrabDistance,

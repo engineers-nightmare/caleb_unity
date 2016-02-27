@@ -623,9 +623,26 @@ MonoBehaviour:
   MoveDeadzone: 0.1
   MinContinueMoveCosAngle: 0
   MinSelectHoldCosAngle: 0.2
-  MoveSpeed: 0.01
+  MoveSpeed: 0.001
   PosBlendFactor: 0.1
   NearbyHoldsRadius: 2
+  MaxRetargetMoveT: 0.4
+  WeightShiftCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0.29583332
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 0.9041667
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!54 &1601049222
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -900,7 +917,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 14402750, guid: 28c96d7e89f35c148a6012cbeceedbd1, type: 2}
       propertyPath: m_ConnectedAnchor.y
-      value: 0.00000016894768
+      value: 0.00000013169478
       objectReference: {fileID: 0}
     - target: {fileID: 14402750, guid: 28c96d7e89f35c148a6012cbeceedbd1, type: 2}
       propertyPath: m_ConnectedAnchor.z
@@ -908,15 +925,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 14490070, guid: 28c96d7e89f35c148a6012cbeceedbd1, type: 2}
       propertyPath: m_ConnectedAnchor.x
-      value: 0.00000011920929
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 14490070, guid: 28c96d7e89f35c148a6012cbeceedbd1, type: 2}
       propertyPath: m_ConnectedAnchor.y
-      value: 0.00000003966875
+      value: -0.000000086991136
       objectReference: {fileID: 0}
     - target: {fileID: 14490070, guid: 28c96d7e89f35c148a6012cbeceedbd1, type: 2}
       propertyPath: m_ConnectedAnchor.z
-      value: -0.074362926
+      value: -0.07436293
       objectReference: {fileID: 0}
     - target: {fileID: 14485376, guid: 28c96d7e89f35c148a6012cbeceedbd1, type: 2}
       propertyPath: m_ConnectedAnchor.x
@@ -936,43 +953,43 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 14454396, guid: 28c96d7e89f35c148a6012cbeceedbd1, type: 2}
       propertyPath: m_ConnectedAnchor.y
-      value: -0.04747953
+      value: -0.0474795
       objectReference: {fileID: 0}
     - target: {fileID: 14454396, guid: 28c96d7e89f35c148a6012cbeceedbd1, type: 2}
       propertyPath: m_ConnectedAnchor.z
-      value: 0.034619875
+      value: 0.03461987
       objectReference: {fileID: 0}
     - target: {fileID: 14478140, guid: 28c96d7e89f35c148a6012cbeceedbd1, type: 2}
       propertyPath: m_ConnectedAnchor.x
-      value: -0.32174075
+      value: -0.32174063
       objectReference: {fileID: 0}
     - target: {fileID: 14478140, guid: 28c96d7e89f35c148a6012cbeceedbd1, type: 2}
       propertyPath: m_ConnectedAnchor.y
-      value: 0.024315424
+      value: 0.024315339
       objectReference: {fileID: 0}
     - target: {fileID: 14478140, guid: 28c96d7e89f35c148a6012cbeceedbd1, type: 2}
       propertyPath: m_ConnectedAnchor.z
-      value: -0.00000043114275
+      value: -0.00000043370366
       objectReference: {fileID: 0}
     - target: {fileID: 14479004, guid: 28c96d7e89f35c148a6012cbeceedbd1, type: 2}
       propertyPath: m_ConnectedAnchor.x
-      value: -0.22518301
+      value: -0.22518307
       objectReference: {fileID: 0}
     - target: {fileID: 14479004, guid: 28c96d7e89f35c148a6012cbeceedbd1, type: 2}
       propertyPath: m_ConnectedAnchor.y
-      value: 0.0059868004
+      value: 0.005986834
       objectReference: {fileID: 0}
     - target: {fileID: 14479004, guid: 28c96d7e89f35c148a6012cbeceedbd1, type: 2}
       propertyPath: m_ConnectedAnchor.z
-      value: -0.00000022396034
+      value: -0.00000022326208
       objectReference: {fileID: 0}
     - target: {fileID: 14463776, guid: 28c96d7e89f35c148a6012cbeceedbd1, type: 2}
       propertyPath: m_ConnectedAnchor.x
-      value: -0.092293575
+      value: -0.092293695
       objectReference: {fileID: 0}
     - target: {fileID: 14463776, guid: 28c96d7e89f35c148a6012cbeceedbd1, type: 2}
       propertyPath: m_ConnectedAnchor.y
-      value: 0.012906693
+      value: 0.012906782
       objectReference: {fileID: 0}
     - target: {fileID: 14463776, guid: 28c96d7e89f35c148a6012cbeceedbd1, type: 2}
       propertyPath: m_ConnectedAnchor.z
@@ -988,31 +1005,39 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 14447960, guid: 28c96d7e89f35c148a6012cbeceedbd1, type: 2}
       propertyPath: m_ConnectedAnchor.x
-      value: 0.08794555
+      value: 0.08794543
       objectReference: {fileID: 0}
     - target: {fileID: 14447960, guid: 28c96d7e89f35c148a6012cbeceedbd1, type: 2}
       propertyPath: m_ConnectedAnchor.y
-      value: -0.014121933
+      value: -0.014122004
       objectReference: {fileID: 0}
     - target: {fileID: 14447960, guid: 28c96d7e89f35c148a6012cbeceedbd1, type: 2}
       propertyPath: m_ConnectedAnchor.z
-      value: 0.22941944
+      value: 0.22941945
       objectReference: {fileID: 0}
     - target: {fileID: 14417496, guid: 28c96d7e89f35c148a6012cbeceedbd1, type: 2}
       propertyPath: m_ConnectedAnchor.x
-      value: 0.08794443
+      value: 0.0879446
       objectReference: {fileID: 0}
     - target: {fileID: 14417496, guid: 28c96d7e89f35c148a6012cbeceedbd1, type: 2}
       propertyPath: m_ConnectedAnchor.y
-      value: -0.014121974
+      value: -0.014121882
       objectReference: {fileID: 0}
     - target: {fileID: 14417496, guid: 28c96d7e89f35c148a6012cbeceedbd1, type: 2}
       propertyPath: m_ConnectedAnchor.z
-      value: -0.22941983
+      value: -0.22941978
       objectReference: {fileID: 0}
     - target: {fileID: 183720, guid: 28c96d7e89f35c148a6012cbeceedbd1, type: 2}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 14402750, guid: 28c96d7e89f35c148a6012cbeceedbd1, type: 2}
+      propertyPath: m_ConnectedAnchor.x
+      value: -0.00000023841858
+      objectReference: {fileID: 0}
+    - target: {fileID: 14402246, guid: 28c96d7e89f35c148a6012cbeceedbd1, type: 2}
+      propertyPath: m_ConnectedAnchor.x
+      value: -0.09411301
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11425480, guid: 28c96d7e89f35c148a6012cbeceedbd1, type: 2}
