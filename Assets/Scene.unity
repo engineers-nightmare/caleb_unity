@@ -623,19 +623,19 @@ MonoBehaviour:
   MoveDeadzone: 0.1
   MinContinueMoveCosAngle: 0
   MinSelectHoldCosAngle: 0.2
-  MoveSpeed: 0.001
-  PosBlendFactor: 0.1
+  MoveSpeed: 0.01
+  PosBlendFactor: 0.01
   NearbyHoldsRadius: 2
   MaxRetargetMoveT: 0.4
   WeightShiftCurve:
     serializedVersion: 2
     m_Curve:
-    - time: 0.29583332
+    - time: 0.53663194
       value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
-    - time: 0.9041667
+    - time: 0.80784726
       value: 1
       inSlope: 0
       outSlope: 0

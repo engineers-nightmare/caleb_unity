@@ -18,7 +18,7 @@ namespace Assets.Scripts
         public float MinContinueMoveCosAngle = 0.0f;
         public float MinSelectHoldCosAngle = 0.2f;
         public float MoveSpeed = 0.05f;
-        public float PosBlendFactor = 0.1f;
+        public float PosBlendFactor = 0.01f;
         public float NearbyHoldsRadius = 4.0f;
         public float MaxRetargetMoveT = 0.4f;
         public AnimationCurve WeightShiftCurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
