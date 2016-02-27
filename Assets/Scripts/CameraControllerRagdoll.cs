@@ -2,7 +2,7 @@
 
 namespace Assets.Scripts
 {
-    public class CameraController : MonoBehaviour
+    public class CameraControllerRagdoll : MonoBehaviour
     {
         public GameObject Target = null;
         public float CameraRotateBlendFactor = 0.1f;
@@ -16,8 +16,8 @@ namespace Assets.Scripts
 
         void Start()
         {
-            var pm = Target.GetComponentInChildren<PlayerInput>();
-            _targetRigidbody = pm.Driver;
+            var pm = Target.GetComponentInChildren<ClimbMovement>();
+            _targetRigidbody = pm.rb;
         }
 
         // Update is called once per frame

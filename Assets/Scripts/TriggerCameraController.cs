@@ -14,7 +14,6 @@ namespace Assets.Scripts
         private void Start()
         {
             var pc = GetComponent<BoxCollider>();
-            var center = pc.transform.localPosition;
             var size = Vector3.Scale(pc.transform.localScale, pc.size);
 
             var l = Mathf.Max(size.x, Mathf.Max(size.y, size.z));
@@ -46,13 +45,14 @@ namespace Assets.Scripts
         {
             var p = GetCameraPoint();
 
-            var c = Camera.main.GetComponent<CameraController>();
+            var c = Camera.main.GetComponent<CameraControllerRagdoll>();
             c.SetDesiredPosition(p);
         }
 
         void OnDrawGizmos()
         {
-            var c = Camera.main.GetComponent<CameraController>();
+            var c = Camera.main.GetComponent<CameraControllerRagdoll>();
+            if (!c) return;
             var p = c.GetDesiredPosition();
 
             Gizmos.color = Color.red;
@@ -152,11 +152,11 @@ namespace Assets.Scripts
 
         Vector3 GetCameraPoint()
         {
-            var c = Camera.main.GetComponent<CameraController>();
+            var c = Camera.main.GetComponent<CameraControllerRagdoll>();
             var cp = c.GetDesiredPosition();
             var pl = c.Target;
-            var pi = pl.GetComponentInChildren<PlayerInput>();
-            var rb = pi.Driver;
+            var pi = pl.GetComponentInChildren<ClimbMovement>();
+            var rb = pi.rb;
             var p = rb.transform.position;
 
             var intersects = FindLineSphereIntersections(_spineStartWorld, _spineEndWorld,
