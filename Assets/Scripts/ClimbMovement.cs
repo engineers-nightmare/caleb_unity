@@ -20,6 +20,7 @@ namespace Assets.Scripts
         public float MoveSpeed = 0.05f;
         public float PosBlendFactor = 0.1f;
         public float NearbyHoldsRadius = 4.0f;
+        public float MaxRetargetMoveT = 0.4f;
 
         private float _moveT = 0.0f;
 
@@ -57,35 +58,57 @@ namespace Assets.Scripts
                 {
                     Debug.DrawRay(transform.position, move);
 
+                    var moveDir = move.normalized;
+
                     if (NextHold == null)
                     {
                         /* Try to find a new hold in that direction */
-                        NextHold = GetBestHoldInDirection(move, GetNearbyHoldComponents());
+                        NextHold = GetBestHoldInDirection(moveDir, GetNearbyHoldComponents());
                     }
                     else
                     {
                         /* Evaluate whether this is still a good direction to go, otherwise back out */
-                        var moveDir = move.normalized;
                         var holdDir = (NextHold.p - CurrentHold.p).normalized;
-
                         var speedT = move.magnitude * MoveSpeed / (NextHold.p - CurrentHold.p).magnitude;
-                        if (Vector3.Dot(moveDir, holdDir) > MinContinueMoveCosAngle)
+
+                        Handhold possibleRetarget = null;
+                        if (_moveT < MaxRetargetMoveT)
                         {
-                            _moveT += speedT;
-                            if (_moveT > 1.0f)
-                            {
-                                CurrentHold = NextHold;
-                                NextHold = null;
-                                _moveT = 0.0f;
-                            }
+                            possibleRetarget = GetBestHoldInDirection(moveDir, GetNearbyHoldComponents());
                         }
-                        else
+
+
+
+                        if (possibleRetarget != null && possibleRetarget != CurrentHold &&
+                            Vector3.Dot(moveDir, holdDir) < Vector3.Dot(moveDir, (possibleRetarget.p - CurrentHold.p).normalized) &&
+                            Vector3.Dot(moveDir, holdDir) > MinContinueMoveCosAngle)
                         {
-                            _moveT -= speedT;
-                            if (_moveT < 0.0f)
+                            /* Rescale moveT -- no jumping around if the distance changes! */
+                            _moveT *= (NextHold.p - CurrentHold.p).magnitude / (possibleRetarget.p - CurrentHold.p).magnitude;
+                            /* Change our target */
+                            NextHold = possibleRetarget;
+                        }
+                        else {
+
+                            
+                            if (Vector3.Dot(moveDir, holdDir) > MinContinueMoveCosAngle)
                             {
-                                NextHold = null;
-                                _moveT = 0.0f;
+                                _moveT += speedT;
+                                if (_moveT > 1.0f)
+                                {
+                                    CurrentHold = NextHold;
+                                    NextHold = null;
+                                    _moveT = 0.0f;
+                                }
+                            }
+                            else
+                            {
+                                _moveT -= speedT;
+                                if (_moveT < 0.0f)
+                                {
+                                    NextHold = null;
+                                    _moveT = 0.0f;
+                                }
                             }
                         }
                     }
@@ -141,7 +164,7 @@ namespace Assets.Scripts
         Handhold GetBestHoldInDirection(Vector3 dir, Handholds[] components)
         {
             var bestDot = MinSelectHoldCosAngle;
-            var pos = gameObject.transform.position;
+            var pos = CurrentHold.p;
             Handhold hold = null;
 
             foreach (var c in components)
