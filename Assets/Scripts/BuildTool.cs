@@ -8,15 +8,14 @@ public class BuildTool : MonoBehaviour
 
     void Update()
     {
-        // Place-block mode.
+        var ray = Camera.main.ScreenPointToRay(new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 0));
+
+        var rayOriginLocalSpace = ChunkToEdit.transform.InverseTransformPoint(ray.origin);
+        var rayDirLocalSpace = ChunkToEdit.transform.InverseTransformDirection(ray.direction);
+
+        // Remove block tool -- removes the first block we hit
         if (Input.GetButtonDown("Fire1"))
         {
-            // Determine where, if anywhere, to place a block.
-            var ray = Camera.main.ScreenPointToRay(new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 0));
-
-            var rayOriginLocalSpace = ChunkToEdit.transform.InverseTransformPoint(ray.origin);
-            var rayDirLocalSpace = ChunkToEdit.transform.InverseTransformDirection(ray.direction);
-
             foreach (var fc in ChunkToEdit.BlockCrossingsLocalSpace(rayOriginLocalSpace, rayDirLocalSpace, 5.0f))
             {
                 if (ChunkToEdit.Contents[fc.pos.x, fc.pos.y, fc.pos.z] != 0)
@@ -29,26 +28,21 @@ public class BuildTool : MonoBehaviour
             }
         }
 
-        else if (Input.GetButtonDown("Fire2"))
+        // Place block tool -- places a block against the block we hit, sharing the face we hit
+        if (Input.GetButtonDown("Fire2"))
         {
-            // Determine where, if anywhere, to place a block.
-            var ray = Camera.main.ScreenPointToRay(new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 0));
-
-            var rayOriginLocalSpace = ChunkToEdit.transform.InverseTransformPoint(ray.origin);
-            var rayDirLocalSpace = ChunkToEdit.transform.InverseTransformDirection(ray.direction);
-
             foreach (var fc in ChunkToEdit.BlockCrossingsLocalSpace(rayOriginLocalSpace, rayDirLocalSpace, 5.0f))
             {
                 if (ChunkToEdit.Contents[fc.pos.x, fc.pos.y, fc.pos.z] != 0)
                 {
-
                     // Step back along normal.
                     var x = fc.pos.x + fc.normal.x;
                     var y = fc.pos.y + fc.normal.y;
                     var z = fc.pos.z + fc.normal.z;
 
-                    // Ew.
-                    if (x >= 0 && x < 8 && y >= 0 && y < 8 && z >= 0 && z < 8)
+                    if (x >= 0 && x < Constants.ChunkSize &&
+                        y >= 0 && y < Constants.ChunkSize &&
+                        z >= 0 && z < Constants.ChunkSize)
                     {
                         // Proposed position is still within the chunk.
                         ChunkToEdit.Contents[x, y, z] = 1;
