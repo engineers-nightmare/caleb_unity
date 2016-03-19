@@ -5,6 +5,8 @@ public class BuildTool : MonoBehaviour
 {
     // HACK: we really want to be able to edit any chunks, not prewire them.
     public ChunkData ChunkToEdit = null;
+    public AudioClip PlaceBlockSound = null;
+    public AudioClip RemoveBlockSound = null;
 
     void Update()
     {
@@ -22,6 +24,9 @@ public class BuildTool : MonoBehaviour
                 {
                     ChunkToEdit.Contents[fc.pos.x, fc.pos.y, fc.pos.z] = 0;
                     ChunkToEdit.generation++;
+
+                    // Emit noise
+                    AudioSource.PlayClipAtPoint(RemoveBlockSound, ray.origin + fc.t * ray.direction);
 
                     break;
                 }
@@ -47,6 +52,9 @@ public class BuildTool : MonoBehaviour
                         // Proposed position is still within the chunk.
                         ChunkToEdit.Contents[x, y, z] = 1;
                         ChunkToEdit.generation++;
+
+                        // Emit clunk noise
+                        AudioSource.PlayClipAtPoint(PlaceBlockSound, ray.origin + fc.t * ray.direction);
                     }
 
                     break;
