@@ -33,7 +33,9 @@ public class ChunkMesher : MonoBehaviour
                 for (int k = 0; k < Constants.ChunkSize; k++)
                     if (Data.Contents[i, j, k] != 0)
                     {
-                        var p = new Vector3(i + 1, j, k);       // HACK for broken content.
+                        var p = new Vector3(i - Constants.ChunkSize/2 + 1,
+                            j - Constants.ChunkSize/2,
+                            k - Constants.ChunkSize/2);       // HACK for broken content.
                         var indexOffset = verts.Count;
 
                         foreach (var v in templateMeshVerts)
@@ -57,7 +59,7 @@ public class ChunkMesher : MonoBehaviour
     void OnDrawGizmos()
     {
         Gizmos.matrix = transform.localToWorldMatrix;
-        Gizmos.DrawWireCube(new Vector3(Constants.ChunkSize / 2, Constants.ChunkSize / 2, Constants.ChunkSize / 2),
+        Gizmos.DrawWireCube(new Vector3(0, 0, 0),
             new Vector3(Constants.ChunkSize, Constants.ChunkSize, Constants.ChunkSize));
     }
 
