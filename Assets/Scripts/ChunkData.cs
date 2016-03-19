@@ -23,9 +23,9 @@ public class ChunkData : MonoBehaviour
     ChunkData()
     {
         // some initial data
-        Contents[0, 0, 0] = 1;
-        Contents[0, 0, 1] = 1;
-        Contents[0, 1, 1] = 1;
+        Contents[3, 0, 3] = 1;
+        Contents[3, 0, 4] = 1;
+        Contents[3, 1, 4] = 1;
         generation = 0;
     }
 
@@ -72,14 +72,14 @@ public class ChunkData : MonoBehaviour
             else if (max.y < max.z)
             {
                 bl.y += step.y;
-                n = new IntVec3(-step.y, 0, 0);
+                n = new IntVec3(0, -step.y, 0);
                 t = max.y;
                 max.y += delta.y;
             }
             else
             {
                 bl.z += step.z;
-                n = new IntVec3(-step.z, 0, 0);
+                n = new IntVec3(0, 0, -step.z);
                 t = max.z;
                 max.z += delta.z;
             }

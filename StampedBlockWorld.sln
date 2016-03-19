@@ -1,7 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StampedBlockWorld.CSharp.Plugins", "StampedBlockWorld.CSharp.Plugins.csproj", "{64C99D11-01BF-2DC9-AE78-D4A9DB4AF543}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StampedBlockWorld.CSharp", "StampedBlockWorld.CSharp.csproj", "{A10BF112-E8FA-88DD-7FDB-1DAE424F92B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StampedBlockWorld.CSharp.Editor", "StampedBlockWorld.CSharp.Editor.csproj", "{49EFCAC1-B8ED-1DC3-2682-7648791198E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +13,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{64C99D11-01BF-2DC9-AE78-D4A9DB4AF543}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64C99D11-01BF-2DC9-AE78-D4A9DB4AF543}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64C99D11-01BF-2DC9-AE78-D4A9DB4AF543}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64C99D11-01BF-2DC9-AE78-D4A9DB4AF543}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A10BF112-E8FA-88DD-7FDB-1DAE424F92B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A10BF112-E8FA-88DD-7FDB-1DAE424F92B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A10BF112-E8FA-88DD-7FDB-1DAE424F92B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A10BF112-E8FA-88DD-7FDB-1DAE424F92B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49EFCAC1-B8ED-1DC3-2682-7648791198E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49EFCAC1-B8ED-1DC3-2682-7648791198E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49EFCAC1-B8ED-1DC3-2682-7648791198E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49EFCAC1-B8ED-1DC3-2682-7648791198E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
