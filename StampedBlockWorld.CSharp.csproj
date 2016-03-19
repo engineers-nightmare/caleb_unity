@@ -74,6 +74,7 @@
     <Compile Include="Assets\Scripts\ChunkMesher.cs" />
     <Compile Include="Assets\Scripts\Constants.cs" />
     <Compile Include="Assets\Scripts\Math.cs" />
+    <Compile Include="Assets\Scripts\Reticle.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
