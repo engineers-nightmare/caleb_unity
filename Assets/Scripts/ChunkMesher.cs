@@ -9,6 +9,7 @@ public class ChunkMesher : MonoBehaviour
     public Mesh FrameMeshTemplate;
     public Mesh[] FaceMeshTemplates = new Mesh[6];
     public MeshFilter OutputMeshFilter;
+    public MeshCollider OutputMeshCollider;
 
     // Use this for initialization
     void Start()
@@ -54,6 +55,7 @@ public class ChunkMesher : MonoBehaviour
         m.SetNormals(normals);
         m.SetTriangles(indices, 0);
         OutputMeshFilter.mesh = m;
+        OutputMeshCollider.sharedMesh = m;
     }
 
     void OnDrawGizmos()
@@ -69,6 +71,7 @@ public class ChunkMesher : MonoBehaviour
         {
             RebuildTargetMesh();
             generation = Data.generation;
+            Debug.Log(string.Format("Rebuilt chunk mesh for generation {0}", generation));
         }
     }
 }
