@@ -73,6 +73,7 @@
     <Compile Include="Assets\Scripts\ChunkData.cs" />
     <Compile Include="Assets\Scripts\ChunkMesher.cs" />
     <Compile Include="Assets\Scripts\Constants.cs" />
+    <Compile Include="Assets\Scripts\CrouchHandler.cs" />
     <Compile Include="Assets\Scripts\Math.cs" />
     <Compile Include="Assets\Scripts\Reticle.cs" />
   </ItemGroup>

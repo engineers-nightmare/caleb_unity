@@ -42,6 +42,7 @@ public class BuildTool : MonoBehaviour
                         ChunkToEdit.generation++;
 
                         AudioSource.PlayClipAtPoint(RemoveBlockSound, ray.origin + fc.t * ray.direction);
+                        break;
                     }
                 }
             }
