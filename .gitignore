@@ -3,3 +3,6 @@ Library
 .vs
 *.sdf
 *.opendb
+*.exe
+*_Data/
+*.pdb
