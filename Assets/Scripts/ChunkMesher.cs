@@ -22,7 +22,8 @@ public class ChunkMesher : MonoBehaviour
         var verts = new List<Vector3>();
         var uvs = new List<Vector2>();
         var normals = new List<Vector3>();
-        var indices = new List<int>();
+        var frameIndices = new List<int>();
+        var faceIndices = new List<int>();
 
         var templateMeshVerts = FrameMeshTemplate.vertices;
         var templateMeshIndices = FrameMeshTemplate.triangles;
@@ -32,11 +33,12 @@ public class ChunkMesher : MonoBehaviour
         for (int i = 0; i < Constants.ChunkSize; i++)
             for (int j = 0; j < Constants.ChunkSize; j++)
                 for (int k = 0; k < Constants.ChunkSize; k++)
+                {
                     if (Data.Contents[i, j, k] != 0)
                     {
-                        var p = new Vector3(i - Constants.ChunkSize/2 + 1,
-                            j - Constants.ChunkSize/2,
-                            k - Constants.ChunkSize/2);       // HACK for broken content.
+                        var p = new Vector3(i - Constants.ChunkSize / 2 + 1,
+                            j - Constants.ChunkSize / 2,
+                            k - Constants.ChunkSize / 2);       // HACK for broken content.
                         var indexOffset = verts.Count;
 
                         foreach (var v in templateMeshVerts)
@@ -46,14 +48,48 @@ public class ChunkMesher : MonoBehaviour
                         foreach (var n in templateMeshNormals)
                             normals.Add(n);
                         foreach (var ind in templateMeshIndices)
-                            indices.Add(indexOffset + ind);
+                            frameIndices.Add(indexOffset + ind);
                     }
+                }
+
+        for (int faceBit = 0; faceBit < 6; faceBit++)
+        {
+            templateMeshVerts = FaceMeshTemplates[faceBit].vertices;
+            templateMeshIndices = FaceMeshTemplates[faceBit].triangles;
+            templateMeshUvs = FaceMeshTemplates[faceBit].uv;
+            templateMeshNormals = FaceMeshTemplates[faceBit].normals;
+
+            for (int i = 0; i < Constants.ChunkSize; i++)
+                for (int j = 0; j < Constants.ChunkSize; j++)
+                    for (int k = 0; k < Constants.ChunkSize; k++)
+                    {
+                        var face = Data.Faces[i, j, k];
+                        if ((face & (1 << faceBit)) != 0)
+                        {
+                            var p = new Vector3(i - Constants.ChunkSize / 2 + 1,
+                            j - Constants.ChunkSize / 2,
+                            k - Constants.ChunkSize / 2);       // HACK for broken content.
+                            var indexOffset = verts.Count;
+
+                            foreach (var v in templateMeshVerts)
+                                verts.Add(p + v);
+                            foreach (var uv in templateMeshUvs)
+                                uvs.Add(uv);
+                            foreach (var n in templateMeshNormals)
+                                normals.Add(n);
+                            foreach (var ind in templateMeshIndices)
+                                faceIndices.Add(indexOffset + ind);
+                        }
+                    }
+        }
 
         var m = new Mesh();
         m.SetVertices(verts);
         m.SetUVs(0, uvs);
         m.SetNormals(normals);
-        m.SetTriangles(indices, 0);
+        m.subMeshCount = 2;
+        m.SetTriangles(frameIndices, 0);
+        m.SetTriangles(faceIndices, 1);
         OutputMeshFilter.mesh = m;
         OutputMeshCollider.sharedMesh = m;
     }
