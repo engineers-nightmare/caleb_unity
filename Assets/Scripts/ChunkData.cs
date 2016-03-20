@@ -28,8 +28,6 @@ public class ChunkData : MonoBehaviour
         Contents[3, 0, 4] = 1;
         Contents[3, 1, 4] = 1;
 
-        Faces[3, 0, 3] = 3;
-
         generation = 0;
     }
 

@@ -83,6 +83,13 @@ public class ChunkMesher : MonoBehaviour
                     }
         }
 
+        // rendered mesh vs phys mesh constraints:
+        // - rendered mesh MUST have the correct number of submeshes for the number of materials
+        //   attached to the MeshRenderer.
+        // - phys mesh must NEVER contain an empty submesh, or building will fail.
+        //
+        // we /could/ take control of the materials array here, but for now just cheat and produce
+        // two meshes.
         var m = new Mesh();
         m.SetVertices(verts);
         m.SetUVs(0, uvs);
@@ -91,6 +98,17 @@ public class ChunkMesher : MonoBehaviour
         m.SetTriangles(frameIndices, 0);
         m.SetTriangles(faceIndices, 1);
         OutputMeshFilter.mesh = m;
+
+        m = new Mesh();
+        m.SetVertices(verts);
+        m.SetUVs(0, uvs);
+        m.SetNormals(normals);
+        var parts = new List<List<int>>();
+        if (frameIndices.Count > 0) parts.Add(frameIndices);
+        if (faceIndices.Count > 0) parts.Add(faceIndices);
+        m.subMeshCount = parts.Count;
+        for (var partIndex = 0; partIndex < parts.Count; partIndex++)
+            m.SetTriangles(parts[partIndex], partIndex);
         OutputMeshCollider.sharedMesh = m;
     }
 
