@@ -36,9 +36,9 @@ public class ChunkMesher : MonoBehaviour
                 {
                     if (Data.Contents[i, j, k] != 0)
                     {
-                        var p = new Vector3(i - Constants.ChunkSize / 2 + 1,
+                        var p = new Vector3(i - Constants.ChunkSize / 2,
                             j - Constants.ChunkSize / 2,
-                            k - Constants.ChunkSize / 2);       // HACK for broken content.
+                            k - Constants.ChunkSize / 2);
                         var indexOffset = verts.Count;
 
                         foreach (var v in templateMeshVerts)
@@ -66,9 +66,9 @@ public class ChunkMesher : MonoBehaviour
                         var face = Data.Faces[i, j, k];
                         if ((face & (1 << faceBit)) != 0)
                         {
-                            var p = new Vector3(i - Constants.ChunkSize / 2 + 1,
+                            var p = new Vector3(i - Constants.ChunkSize / 2,
                             j - Constants.ChunkSize / 2,
-                            k - Constants.ChunkSize / 2);       // HACK for broken content.
+                            k - Constants.ChunkSize / 2);
                             var indexOffset = verts.Count;
 
                             foreach (var v in templateMeshVerts)
