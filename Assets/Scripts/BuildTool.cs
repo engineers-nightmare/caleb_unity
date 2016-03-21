@@ -36,9 +36,9 @@ public class BuildTool : MonoBehaviour
                 if (ChunkToEdit.Contents[fc.pos.x, fc.pos.y, fc.pos.z] != 0)
                 {
                     var faceIndex = NormalToFaceIndex(fc.normal);
-                    if ((ChunkToEdit.Faces[fc.pos.x, fc.pos.y, fc.pos.z] & (1 << faceIndex)) == 0)
+                    if (ChunkToEdit.Faces[fc.pos.x, fc.pos.y, fc.pos.z, faceIndex] == 0)
                     {
-                        ChunkToEdit.Faces[fc.pos.x, fc.pos.y, fc.pos.z] |= (byte)(1 << faceIndex);
+                        ChunkToEdit.Faces[fc.pos.x, fc.pos.y, fc.pos.z, faceIndex] = 1;
                         ChunkToEdit.generation++;
 
                         AudioSource.PlayClipAtPoint(RemoveBlockSound, ray.origin + fc.t * ray.direction);

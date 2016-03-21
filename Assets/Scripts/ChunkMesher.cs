@@ -52,19 +52,19 @@ public class ChunkMesher : MonoBehaviour
                     }
                 }
 
-        for (int faceBit = 0; faceBit < 6; faceBit++)
+        for (int faceIndex = 0; faceIndex < 6; faceIndex++)
         {
-            templateMeshVerts = FaceMeshTemplates[faceBit].vertices;
-            templateMeshIndices = FaceMeshTemplates[faceBit].triangles;
-            templateMeshUvs = FaceMeshTemplates[faceBit].uv;
-            templateMeshNormals = FaceMeshTemplates[faceBit].normals;
+            templateMeshVerts = FaceMeshTemplates[faceIndex].vertices;
+            templateMeshIndices = FaceMeshTemplates[faceIndex].triangles;
+            templateMeshUvs = FaceMeshTemplates[faceIndex].uv;
+            templateMeshNormals = FaceMeshTemplates[faceIndex].normals;
 
             for (int i = 0; i < Constants.ChunkSize; i++)
                 for (int j = 0; j < Constants.ChunkSize; j++)
                     for (int k = 0; k < Constants.ChunkSize; k++)
                     {
-                        var face = Data.Faces[i, j, k];
-                        if ((face & (1 << faceBit)) != 0)
+                        var surfaceType = Data.Faces[i, j, k, faceIndex];
+                        if (surfaceType != 0)
                         {
                             var p = new Vector3(i - Constants.ChunkSize / 2,
                             j - Constants.ChunkSize / 2,
@@ -97,6 +97,7 @@ public class ChunkMesher : MonoBehaviour
         m.subMeshCount = 2;
         m.SetTriangles(frameIndices, 0);
         m.SetTriangles(faceIndices, 1);
+        m.UploadMeshData(true);
         OutputMeshFilter.mesh = m;
 
         m = new Mesh();
