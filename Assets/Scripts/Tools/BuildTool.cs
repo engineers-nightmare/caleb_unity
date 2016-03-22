@@ -9,6 +9,11 @@ public class BuildTool : MonoBehaviour
     public AudioClip PlaceBlockSound = null;
     public AudioClip RemoveBlockSound = null;
 
+    public GameObject _previewGameObject = null;
+    public Mesh _frameBlock = null;
+    public MeshFilter _frameBlockFilter = null;
+    public MeshRenderer _frameBlockRender = null;
+
     static int NormalToFaceIndex(IntVec3 n)
     {
         if (n.x == -1) return 0;
@@ -21,12 +26,70 @@ public class BuildTool : MonoBehaviour
         throw new InvalidOperationException("Bogus face normal");
     }
 
+    void Start()
+    {
+        _previewGameObject = new GameObject();
+
+        var cm = ChunkToEdit.GetComponentInParent<ChunkMesher>();
+        _frameBlock = cm.FrameMeshTemplate;
+        _frameBlockFilter = _previewGameObject.AddComponent<MeshFilter>();
+        _frameBlockRender = _previewGameObject.AddComponent<MeshRenderer>();
+        _frameBlockFilter.mesh = _frameBlock;
+    }
+
+    protected void UpdatePreview()
+    {
+        var ray = Camera.main.ScreenPointToRay(
+            new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 0));
+
+        var ceTrans = ChunkToEdit.transform;
+        var rayOriginLocalSpace = ceTrans.InverseTransformPoint(ray.origin);
+        var rayDirLocalSpace = ceTrans.InverseTransformDirection(ray.direction);
+
+        foreach (var fc in ChunkToEdit.BlockCrossingsLocalSpace(rayOriginLocalSpace, rayDirLocalSpace, 5.0f))
+        {
+            if (ChunkToEdit.Contents[fc.pos.x, fc.pos.y, fc.pos.z] != 0)
+            {
+                var faceIndex = NormalToFaceIndex(fc.normal);
+                if ((ChunkToEdit.Faces[fc.pos.x, fc.pos.y, fc.pos.z, faceIndex] & (1 << faceIndex)) == 0)
+                {
+                    var pv3 = ChunkToEdit.BlockNegativeCornerToWorldSpace(fc.pos + fc.normal);
+                    _previewGameObject.transform.position = pv3;
+                    _previewGameObject.transform.rotation = ceTrans.rotation;
+                    break;
+                }
+            }
+        }
+    }
+
+    void OnDrawGizmos()
+    {
+        var ray = Camera.main.ScreenPointToRay(new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 0));
+
+        var rayOriginLocalSpace = ChunkToEdit.transform.InverseTransformPoint(ray.origin);
+        var rayDirLocalSpace = ChunkToEdit.transform.InverseTransformDirection(ray.direction);
+        
+        foreach (var fc in ChunkToEdit.BlockCrossingsLocalSpace(rayOriginLocalSpace, rayDirLocalSpace, 5.0f))
+        {
+            if (ChunkToEdit.Contents[fc.pos.x, fc.pos.y, fc.pos.z] != 0)
+            {
+                var faceIndex = NormalToFaceIndex(fc.normal);
+                if ((ChunkToEdit.Faces[fc.pos.x, fc.pos.y, fc.pos.z, faceIndex] & (1 << faceIndex)) == 0)
+                {
+                    Gizmos.DrawSphere(ray.origin + fc.t * ray.direction, 0.05f);
+                }
+            }
+        }
+    }
+
     void Update()
     {
         var ray = Camera.main.ScreenPointToRay(new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 0));
 
         var rayOriginLocalSpace = ChunkToEdit.transform.InverseTransformPoint(ray.origin);
         var rayDirLocalSpace = ChunkToEdit.transform.InverseTransformDirection(ray.direction);
+
+        UpdatePreview();
 
         // Surface placement
         if (Input.GetButtonDown("Fire3"))

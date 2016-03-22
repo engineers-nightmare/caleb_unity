@@ -93,4 +93,12 @@ public class ChunkData : MonoBehaviour
             yield return new BlockHit(bl, n, t);
         }
     }
+
+    public Vector3 BlockNegativeCornerToWorldSpace(IntVec3 block)
+    {
+        var pos = transform.localToWorldMatrix * (block.NegativeCornersToVector3() - new Vector3(4, 4, 4));
+        var pv3 = transform.position + new Vector3(pos.x, pos.y, pos.z);
+
+        return pv3;
+    }
 }

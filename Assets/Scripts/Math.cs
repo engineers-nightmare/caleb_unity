@@ -21,9 +21,35 @@ public struct IntVec3
         return a.x != b.x || a.y != b.y || a.z != b.z;
     }
 
+    public static IntVec3 operator +(IntVec3 a, IntVec3 b)
+    {
+        return new IntVec3(a.x + b.x, a.y + b.y, a.z + b.z);
+    }
+
+    public static IntVec3 operator -(IntVec3 a, IntVec3 b)
+    {
+        return new IntVec3(a.x - b.x, a.y - b.y, a.z - b.z);
+    }
+
     public override bool Equals(object obj)
     {
         return this == (IntVec3)obj;
+    }
+
+    public Vector3 NegativeCornersToVector3()
+    {
+        return new Vector3(x, y, z);
+    }
+
+    public Vector3 PositiveCornersToVector3()
+    {
+        return new Vector3(x + 1, y + 1, z + 1);
+    }
+
+    public Vector3 CenterToVector3()
+    {
+        var ret = new Vector3(x, y, z);
+        return ret + new Vector3(0.5f, 0.5f, 0.5f);
     }
 
     public override int GetHashCode()
@@ -34,6 +60,7 @@ public struct IntVec3
 
 public static class MathExts
 {
+
     public static IntVec3 FloorToInt(this Vector3 p)
     {
         return new IntVec3(
