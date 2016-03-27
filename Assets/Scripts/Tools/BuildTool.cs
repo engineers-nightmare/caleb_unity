@@ -92,7 +92,7 @@ public class BuildTool : MonoBehaviour
         UpdatePreview();
 
         // Surface placement
-        if (Input.GetButtonDown("Fire3"))
+        if (Input.GetButtonDown("ToolTertiary"))
         {
             foreach (var fc in ChunkToEdit.BlockCrossingsLocalSpace(rayOriginLocalSpace, rayDirLocalSpace, 5.0f))
             {
@@ -112,7 +112,7 @@ public class BuildTool : MonoBehaviour
         }
 
         // Remove block tool -- removes the first block we hit
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("ToolPrimary"))
         {
             foreach (var fc in ChunkToEdit.BlockCrossingsLocalSpace(rayOriginLocalSpace, rayDirLocalSpace, 5.0f))
             {
@@ -130,7 +130,7 @@ public class BuildTool : MonoBehaviour
         }
 
         // Place block tool -- places a block against the block we hit, sharing the face we hit
-        if (Input.GetButtonDown("Fire2"))
+        if (Input.GetButtonDown("ToolSecondary"))
         {
             foreach (var fc in ChunkToEdit.BlockCrossingsLocalSpace(rayOriginLocalSpace, rayDirLocalSpace, 5.0f))
             {
