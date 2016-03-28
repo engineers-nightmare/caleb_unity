@@ -9,10 +9,8 @@ public class BuildTool : MonoBehaviour
     public AudioClip PlaceBlockSound = null;
     public AudioClip RemoveBlockSound = null;
 
-    public GameObject _previewGameObject = null;
-    public Mesh _frameBlock = null;
-    public MeshFilter _frameBlockFilter = null;
-    public MeshRenderer _frameBlockRender = null;
+    Mesh _frameBlock = null;
+    public Material PreviewMaterial = null;
 
     static int NormalToFaceIndex(IntVec3 n)
     {
@@ -28,13 +26,8 @@ public class BuildTool : MonoBehaviour
 
     void Start()
     {
-        _previewGameObject = new GameObject();
-
         var cm = ChunkToEdit.GetComponentInParent<ChunkMesher>();
         _frameBlock = cm.FrameMeshTemplate;
-        _frameBlockFilter = _previewGameObject.AddComponent<MeshFilter>();
-        _frameBlockRender = _previewGameObject.AddComponent<MeshRenderer>();
-        _frameBlockFilter.mesh = _frameBlock;
     }
 
     protected void UpdatePreview()
@@ -54,8 +47,7 @@ public class BuildTool : MonoBehaviour
                 if ((ChunkToEdit.Faces[fc.pos.x, fc.pos.y, fc.pos.z, faceIndex] & (1 << faceIndex)) == 0)
                 {
                     var pv3 = ChunkToEdit.BlockNegativeCornerToWorldSpace(fc.pos + fc.normal);
-                    _previewGameObject.transform.position = pv3;
-                    _previewGameObject.transform.rotation = ceTrans.rotation;
+                    Graphics.DrawMesh(_frameBlock, pv3, ceTrans.rotation, PreviewMaterial, 0);
                     break;
                 }
             }
