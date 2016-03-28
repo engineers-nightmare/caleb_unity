@@ -56,6 +56,23 @@ public struct IntVec3
     {
         return x.GetHashCode() ^ y.GetHashCode() ^ z.GetHashCode();
     }
+
+    public static IntVec3 BlockCoordToChunkCoord(IntVec3 p)
+    {
+        return new IntVec3(
+            p.x >> Constants.Log2ChunkSize,
+            p.y >> Constants.Log2ChunkSize,
+            p.z >> Constants.Log2ChunkSize);
+    }
+
+    public static IntVec3 BlockCoordToChunkOffset(IntVec3 p)
+    {
+        var mask = ~(Constants.ChunkSize - 1);
+        return new IntVec3(
+            p.x - (p.x & mask),
+            p.y - (p.y & mask),
+            p.z - (p.z & mask));
+    }
 }
 
 public static class MathExts

@@ -36,9 +36,7 @@ public class ChunkMesher : MonoBehaviour
                 {
                     if (Data.Contents[i, j, k] != 0)
                     {
-                        var p = new Vector3(i - Constants.ChunkSize / 2,
-                            j - Constants.ChunkSize / 2,
-                            k - Constants.ChunkSize / 2);
+                        var p = new Vector3(i, j, k);
                         var indexOffset = verts.Count;
 
                         foreach (var v in templateMeshVerts)
@@ -66,9 +64,7 @@ public class ChunkMesher : MonoBehaviour
                         var surfaceType = Data.Faces[i, j, k, faceIndex];
                         if (surfaceType != 0)
                         {
-                            var p = new Vector3(i - Constants.ChunkSize / 2,
-                            j - Constants.ChunkSize / 2,
-                            k - Constants.ChunkSize / 2);
+                            var p = new Vector3(i, j, k);
                             var indexOffset = verts.Count;
 
                             foreach (var v in templateMeshVerts)
@@ -116,7 +112,7 @@ public class ChunkMesher : MonoBehaviour
     void OnDrawGizmos()
     {
         Gizmos.matrix = transform.localToWorldMatrix;
-        Gizmos.DrawWireCube(new Vector3(0, 0, 0),
+        Gizmos.DrawWireCube(new Vector3(Constants.HalfChunkSize, Constants.HalfChunkSize, Constants.HalfChunkSize),
             new Vector3(Constants.ChunkSize, Constants.ChunkSize, Constants.ChunkSize));
     }
 

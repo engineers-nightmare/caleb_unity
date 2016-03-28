@@ -23,11 +23,6 @@ public class ChunkData : MonoBehaviour
 
     ChunkData()
     {
-        // some initial data
-        Contents[3, 0, 3] = 1;
-        Contents[3, 0, 4] = 1;
-        Contents[3, 1, 4] = 1;
-
         generation = 0;
     }
 
@@ -43,11 +38,11 @@ public class ChunkData : MonoBehaviour
         }
     }
 
-    public IEnumerable<BlockHit> BlockCrossingsLocalSpace(Vector3 start, Vector3 dir, float maxDistance)
+    public static IEnumerable<BlockHit> BlockCrossingsLocalSpace(Vector3 start, Vector3 dir, float maxDistance)
     {
         // Produces a sequence of block face crossings. This is more or less DDA with some extra tracking.
         var t = 0.0f;
-        var bl = (start + new Vector3(Constants.ChunkSize / 2, Constants.ChunkSize / 2, Constants.ChunkSize / 2)).FloorToInt();
+        var bl = start.FloorToInt();
         var n = new IntVec3();
         var step = dir.SignToInt();
         // Distance in t between successive crossings on each axis
@@ -96,7 +91,7 @@ public class ChunkData : MonoBehaviour
 
     public Vector3 BlockNegativeCornerToWorldSpace(IntVec3 block)
     {
-        var pos = transform.localToWorldMatrix * (block.NegativeCornersToVector3() - new Vector3(4, 4, 4));
+        var pos = transform.localToWorldMatrix * (block.NegativeCornersToVector3());
         var pv3 = transform.position + new Vector3(pos.x, pos.y, pos.z);
 
         return pv3;
