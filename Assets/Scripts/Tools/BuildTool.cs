@@ -4,14 +4,13 @@ using System;
 
 public class BuildTool : MonoBehaviour
 {
-    // HACK: we really want to be able to edit any chunks, not prewire them.
     public AudioClip PlaceBlockSound = null;
     public AudioClip RemoveBlockSound = null;
 
     public ChunkMap ChunkMapToEdit = null;
 
     public Mesh FrameMesh = null;
-    public Mesh SurfaceMesh = null;
+    public Mesh[] SurfaceMeshes = new Mesh[6];
     public Material PreviewFrameMaterial = null;
     public Material PreviewSurfaceMaterial = null;
 
@@ -61,14 +60,14 @@ public class BuildTool : MonoBehaviour
                 switch (ToolMode)
                 {
                     case BuildToolMode.Frame:
-                        Graphics.DrawMesh(SurfaceMesh, pv3, ceTrans.rotation, PreviewFrameMaterial, 0);
+                        Graphics.DrawMesh(SurfaceMeshes[faceIndex], pv3, ceTrans.rotation, PreviewFrameMaterial, 0);
 
                         pv3 = ce.BlockNegativeCornerToWorldSpace(co + fc.normal);
                         Graphics.DrawMesh(FrameMesh, pv3, ceTrans.rotation, PreviewFrameMaterial, 0);
 
                         return;
                     case BuildToolMode.Surface:
-                        Graphics.DrawMesh(SurfaceMesh, pv3, ceTrans.rotation, PreviewSurfaceMaterial, 0);
+                        Graphics.DrawMesh(SurfaceMeshes[faceIndex], pv3, ceTrans.rotation, PreviewSurfaceMaterial, 0);
 
                         return;
                     default:
