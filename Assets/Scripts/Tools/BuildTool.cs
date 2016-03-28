@@ -66,11 +66,11 @@ public class BuildTool : MonoBehaviour
                         pv3 = ce.BlockNegativeCornerToWorldSpace(co + fc.normal);
                         Graphics.DrawMesh(FrameMesh, pv3, ceTrans.rotation, PreviewFrameMaterial, 0);
 
-                        break;
+                        return;
                     case BuildToolMode.Surface:
                         Graphics.DrawMesh(SurfaceMesh, pv3, ceTrans.rotation, PreviewSurfaceMaterial, 0);
 
-                        break;
+                        return;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
