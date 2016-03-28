@@ -81,10 +81,6 @@ public class ChunkData : MonoBehaviour
                 max.z += delta.z;
             }
 
-            if (bl.x < 0 || bl.x >= Constants.ChunkSize) continue;
-            if (bl.y < 0 || bl.y >= Constants.ChunkSize) continue;
-            if (bl.z < 0 || bl.z >= Constants.ChunkSize) continue;
-
             yield return new BlockHit(bl, n, t);
         }
     }
