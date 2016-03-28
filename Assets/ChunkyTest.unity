@@ -176,7 +176,12 @@ MonoBehaviour:
   RemoveBlockSound: {fileID: 8300000, guid: 3b09d59f4499d45428baa7a21e954296, type: 3}
   ChunkMapToEdit: {fileID: 1993289171}
   FrameMesh: {fileID: 4300000, guid: d9d69da4bedf28d4f8e2efb0ba3a8b1e, type: 3}
-  PreviewMaterial: {fileID: 0}
+  SurfaceMesh: {fileID: 4300010, guid: d9d69da4bedf28d4f8e2efb0ba3a8b1e, type: 3}
+  PreviewFrameMaterial: {fileID: 2100000, guid: 315f83ab513843b449f0b68659cea1a5,
+    type: 2}
+  PreviewSurfaceMaterial: {fileID: 2100000, guid: a4ce30ad8d5abfe409e45e86c894dec8,
+    type: 2}
+  ToolMode: 0
 --- !u!4 &781334862
 Transform:
   m_ObjectHideFlags: 0

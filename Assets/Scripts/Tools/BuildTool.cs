@@ -12,7 +12,8 @@ public class BuildTool : MonoBehaviour
 
     public Mesh FrameMesh = null;
     public Mesh SurfaceMesh = null;
-    public Material PreviewMaterial = null;
+    public Material PreviewFrameMaterial = null;
+    public Material PreviewSurfaceMaterial = null;
 
     public BuildToolMode ToolMode = BuildToolMode.Frame;
 
@@ -49,19 +50,25 @@ public class BuildTool : MonoBehaviour
             if (ce != null && ce.Contents[co.x, co.y, co.z] != 0)
             {
                 var faceIndex = NormalToFaceIndex(fc.normal);
+
+                if ((ce.Faces[co.x, co.y, co.z, faceIndex] & (1 << faceIndex)) != 0)
+                {
+                    continue;
+                }
+
                 var pv3 = ce.BlockNegativeCornerToWorldSpace(co);
 
                 switch (ToolMode)
                 {
                     case BuildToolMode.Frame:
-                        Graphics.DrawMesh(SurfaceMesh, pv3, ceTrans.rotation, PreviewMaterial, 0);
+                        Graphics.DrawMesh(SurfaceMesh, pv3, ceTrans.rotation, PreviewFrameMaterial, 0);
 
                         pv3 = ce.BlockNegativeCornerToWorldSpace(co + fc.normal);
-                        Graphics.DrawMesh(FrameMesh, pv3, ceTrans.rotation, PreviewMaterial, 0);
+                        Graphics.DrawMesh(FrameMesh, pv3, ceTrans.rotation, PreviewFrameMaterial, 0);
 
                         break;
                     case BuildToolMode.Surface:
-                        Graphics.DrawMesh(SurfaceMesh, pv3, ceTrans.rotation, PreviewMaterial, 0);
+                        Graphics.DrawMesh(SurfaceMesh, pv3, ceTrans.rotation, PreviewSurfaceMaterial, 0);
 
                         break;
                     default:
