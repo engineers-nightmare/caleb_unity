@@ -10,6 +10,8 @@ public class ChunkMesher : MonoBehaviour
     public Mesh[] FaceMeshTemplates = new Mesh[6];
     public MeshFilter OutputMeshFilter;
     public MeshCollider OutputMeshCollider;
+    public MeshRenderer OutputMeshRenderer;
+    public Material[] Materials;
 
     // Use this for initialization
     void Start()
@@ -79,34 +81,35 @@ public class ChunkMesher : MonoBehaviour
                     }
         }
 
-        // rendered mesh vs phys mesh constraints:
-        // - rendered mesh MUST have the correct number of submeshes for the number of materials
-        //   attached to the MeshRenderer.
-        // - phys mesh must NEVER contain an empty submesh, or building will fail.
-        //
-        // we /could/ take control of the materials array here, but for now just cheat and produce
-        // two meshes.
+        // constraints:
+        // - must NEVER add empty submeshes to phys
+        // - submeshes must be 1:1 with renderer materials
+
+        var parts = new List<List<int>>();
+        var mats = new List<Material>();
+        if (frameIndices.Count > 0)
+        {
+            mats.Add(Materials[0]);
+            parts.Add(frameIndices);
+        }
+        if (faceIndices.Count > 0)
+        {
+            mats.Add(Materials[1]);
+            parts.Add(faceIndices);
+        }
+
         var m = new Mesh();
         m.SetVertices(verts);
         m.SetUVs(0, uvs);
         m.SetNormals(normals);
-        m.subMeshCount = 2;
-        m.SetTriangles(frameIndices, 0);
-        m.SetTriangles(faceIndices, 1);
-        m.UploadMeshData(true);
-        OutputMeshFilter.mesh = m;
 
-        m = new Mesh();
-        m.SetVertices(verts);
-        m.SetUVs(0, uvs);
-        m.SetNormals(normals);
-        var parts = new List<List<int>>();
-        if (frameIndices.Count > 0) parts.Add(frameIndices);
-        if (faceIndices.Count > 0) parts.Add(faceIndices);
         m.subMeshCount = parts.Count;
         for (var partIndex = 0; partIndex < parts.Count; partIndex++)
             m.SetTriangles(parts[partIndex], partIndex);
+
+        OutputMeshFilter.sharedMesh = m;
         OutputMeshCollider.sharedMesh = m;
+        OutputMeshRenderer.sharedMaterials = mats.ToArray();
     }
 
     void OnDrawGizmos()

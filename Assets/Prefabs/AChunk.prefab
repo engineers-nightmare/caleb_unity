@@ -41,9 +41,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_Materials:
-  - {fileID: 2100000, guid: ad4388b1d0132c849a5cef4ef1368ccb, type: 2}
-  - {fileID: 2100000, guid: a4ce30ad8d5abfe409e45e86c894dec8, type: 2}
+  m_Materials: []
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -112,6 +110,9 @@ MonoBehaviour:
   - {fileID: 4300008, guid: d9d69da4bedf28d4f8e2efb0ba3a8b1e, type: 3}
   OutputMeshFilter: {fileID: 3376238}
   OutputMeshCollider: {fileID: 6481274}
+  Materials:
+  - {fileID: 2100000, guid: ad4388b1d0132c849a5cef4ef1368ccb, type: 2}
+  - {fileID: 2100000, guid: a4ce30ad8d5abfe409e45e86c894dec8, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
