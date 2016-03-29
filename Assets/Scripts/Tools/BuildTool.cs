@@ -50,25 +50,17 @@ public class BuildTool : MonoBehaviour
             {
                 var faceIndex = NormalToFaceIndex(fc.normal);
 
-                if ((ce.Faces[co.x, co.y, co.z, faceIndex] & (1 << faceIndex)) != 0)
-                {
-                    continue;
-                }
-
                 var pv3 = ce.BlockNegativeCornerToWorldSpace(co);
 
                 switch (ToolMode)
                 {
                     case BuildToolMode.Frame:
                         Graphics.DrawMesh(SurfaceMeshes[faceIndex], pv3, ceTrans.rotation, PreviewFrameMaterial, 0);
-
                         pv3 = ce.BlockNegativeCornerToWorldSpace(co + fc.normal);
                         Graphics.DrawMesh(FrameMesh, pv3, ceTrans.rotation, PreviewFrameMaterial, 0);
-
                         return;
                     case BuildToolMode.Surface:
                         Graphics.DrawMesh(SurfaceMeshes[faceIndex], pv3, ceTrans.rotation, PreviewSurfaceMaterial, 0);
-
                         return;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -157,9 +149,9 @@ public class BuildTool : MonoBehaviour
                     ce.Faces[co.x, co.y, co.z, faceIndex] = 1;
                     ce.generation++;
 
-                    AudioSource.PlayClipAtPoint(RemoveBlockSound, ray.origin + fc.t * ray.direction);
-                    break;
+                    AudioSource.PlayClipAtPoint(PlaceBlockSound, ray.origin + fc.t * ray.direction);
                 }
+                break;
             }
         }
     }
@@ -180,8 +172,8 @@ public class BuildTool : MonoBehaviour
                     ce.generation++;
 
                     AudioSource.PlayClipAtPoint(RemoveBlockSound, ray.origin + fc.t * ray.direction);
-                    break;
                 }
+                break;
             }
         }
     }
@@ -203,9 +195,7 @@ public class BuildTool : MonoBehaviour
                 ce2.Contents[co2.x, co2.y, co2.z] = 1;
                 ce2.generation++;
 
-                // Emit clunk noise
                 AudioSource.PlayClipAtPoint(PlaceBlockSound, ray.origin + fc.t * ray.direction);
-
                 break;
             }
         }
@@ -223,9 +213,7 @@ public class BuildTool : MonoBehaviour
                 ce.Contents[co.x, co.y, co.z] = 0;
                 ce.generation++;
 
-                // Emit noise
                 AudioSource.PlayClipAtPoint(RemoveBlockSound, ray.origin + fc.t * ray.direction);
-
                 break;
             }
         }
