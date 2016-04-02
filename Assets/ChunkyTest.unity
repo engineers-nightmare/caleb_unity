@@ -151,7 +151,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 781334862}
-  - 114: {fileID: 781334861}
   - 114: {fileID: 781334863}
   - 114: {fileID: 781334864}
   - 114: {fileID: 781334865}
@@ -162,28 +161,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &781334861
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 781334860}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 243b2f2fa4795dd4880de3695ab71f87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlaceBlockSound: {fileID: 8300000, guid: 5897aeed9b676024fbb8c694b421a861, type: 3}
-  RemoveBlockSound: {fileID: 8300000, guid: 3b09d59f4499d45428baa7a21e954296, type: 3}
-  ChunkMapToEdit: {fileID: 1993289171}
-  Shapes: {fileID: 11412008, guid: 6210090a4ba9fe041957ac0a1905bbe5, type: 2}
-  PreviewFrameMaterial: {fileID: 2100000, guid: 1751eb6c451e7874d8ebd6cc2e35fa29,
-    type: 2}
-  PreviewSurfaceMaterial: {fileID: 2100000, guid: 1751eb6c451e7874d8ebd6cc2e35fa29,
-    type: 2}
-  ToolMode: 0
-  ToolInputDuration: 0.5
-  BlockType: 1
 --- !u!4 &781334862
 Transform:
   m_ObjectHideFlags: 0
@@ -253,6 +230,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 800709472}
+  - 114: {fileID: 800709473}
   m_Layer: 0
   m_Name: FramingTool
   m_TagString: Untagged
@@ -272,6 +250,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 781334862}
   m_RootOrder: 0
+--- !u!114 &800709473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 800709471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ba33db24572c874c93ca2a3a252ab05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlaceSound: {fileID: 8300000, guid: 5897aeed9b676024fbb8c694b421a861, type: 3}
+  RemoveSound: {fileID: 8300000, guid: 3b09d59f4499d45428baa7a21e954296, type: 3}
+  ChunkMapToEdit: {fileID: 1993289171}
+  Shapes: {fileID: 11412008, guid: 6210090a4ba9fe041957ac0a1905bbe5, type: 2}
+  FrameMesh: {fileID: 4300000, guid: d9d69da4bedf28d4f8e2efb0ba3a8b1e, type: 3}
+  PreviewMaterial: {fileID: 2100000, guid: 1751eb6c451e7874d8ebd6cc2e35fa29, type: 2}
+  ToolInputDuration: 0.5
 --- !u!1 &990383859
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,6 +412,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1260432578}
+  - 114: {fileID: 1260432579}
   m_Layer: 0
   m_Name: SurfaceTool
   m_TagString: Untagged
@@ -435,6 +432,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 781334862}
   m_RootOrder: 1
+--- !u!114 &1260432579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1260432577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 243b2f2fa4795dd4880de3695ab71f87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlaceSound: {fileID: 8300000, guid: 5897aeed9b676024fbb8c694b421a861, type: 3}
+  RemoveSound: {fileID: 8300000, guid: 3b09d59f4499d45428baa7a21e954296, type: 3}
+  ChunkMapToEdit: {fileID: 1993289171}
+  SurfaceMeshes:
+  - {fileID: 4300004, guid: d9d69da4bedf28d4f8e2efb0ba3a8b1e, type: 3}
+  - {fileID: 4300010, guid: d9d69da4bedf28d4f8e2efb0ba3a8b1e, type: 3}
+  - {fileID: 4300012, guid: d9d69da4bedf28d4f8e2efb0ba3a8b1e, type: 3}
+  - {fileID: 4300006, guid: d9d69da4bedf28d4f8e2efb0ba3a8b1e, type: 3}
+  - {fileID: 4300002, guid: d9d69da4bedf28d4f8e2efb0ba3a8b1e, type: 3}
+  - {fileID: 4300008, guid: d9d69da4bedf28d4f8e2efb0ba3a8b1e, type: 3}
+  PreviewMaterial: {fileID: 2100000, guid: 1751eb6c451e7874d8ebd6cc2e35fa29, type: 2}
+  ToolInputDuration: 0.5
 --- !u!143 &1791444505 stripped
 CharacterController:
   m_PrefabParentObject: {fileID: 14300000, guid: 5e9e851c0e142814dac026a256ba2ac0,

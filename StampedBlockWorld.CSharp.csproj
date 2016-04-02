@@ -85,7 +85,9 @@
     <Compile Include="Assets\Scripts\Inventory.cs" />
     <Compile Include="Assets\Scripts\Math.cs" />
     <Compile Include="Assets\Scripts\Reticle.cs" />
-    <Compile Include="Assets\Scripts\Tools\BuildTool.cs" />
+    <Compile Include="Assets\Scripts\Tools\FramingTool.cs" />
+    <Compile Include="Assets\Scripts\Tools\InputAccumulator.cs" />
+    <Compile Include="Assets\Scripts\Tools\SurfaceTool.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
