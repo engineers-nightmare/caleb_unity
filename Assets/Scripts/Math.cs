@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 
 public struct IntVec3
 {
@@ -72,6 +73,18 @@ public struct IntVec3
             p.x - (p.x & mask),
             p.y - (p.y & mask),
             p.z - (p.z & mask));
+    }
+
+    public int NormalToFaceIndex()
+    {
+        if (x == -1) return 0;
+        if (x == 1) return 1;
+        if (y == -1) return 2;
+        if (y == 1) return 3;
+        if (z == -1) return 4;
+        if (z == 1) return 5;
+
+        throw new InvalidOperationException("Bogus face normal");
     }
 }
 
