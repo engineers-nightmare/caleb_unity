@@ -16,10 +16,55 @@ public class BuildTool : MonoBehaviour
 
     public BuildToolMode ToolMode = BuildToolMode.Frame;
 
+    public float ToolInputDuration = 0.5f;
+
+    private BuildToolInputAccumulator _inputAccumulator = new BuildToolInputAccumulator();
+
     public enum BuildToolMode
     {
         Frame,
         Surface,
+    }
+
+    private enum BuildToolInputType
+    {
+        Primary,
+        Secondary,
+        Tertiary,
+        None,
+    }
+
+    private class BuildToolInputAccumulator
+    {
+        private BuildToolMode _toolMode;
+        private BuildToolInputType _inputType;
+
+        public float Duration { get; private set; }
+
+        public bool Increment(BuildToolMode mode, BuildToolInputType type,
+            float deltaTime, float targetTime)
+        {
+            if (mode != _toolMode || _inputType != type)
+            {
+                Duration = 0.0f;
+            }
+            _toolMode = mode;
+            _inputType = type;
+            Duration += deltaTime;
+
+            if (targetTime <= Duration)
+            {
+                Duration = 0.0f;
+                return true;
+            }
+
+            return false;
+        }
+
+        public void Reset()
+        {
+            Duration = 0.0f;
+        }
     }
 
     static int NormalToFaceIndex(IntVec3 n)
@@ -38,7 +83,8 @@ public class BuildTool : MonoBehaviour
     {
     }
 
-    private void UpdatePreview(Ray ray, Vector3 rayOriginLocalSpace, Vector3 rayDirLocalSpace)
+    private void UpdatePreview(Ray ray, Vector3 rayOriginLocalSpace,
+        Vector3 rayDirLocalSpace, float scale)
     {
         var ceTrans = ChunkMapToEdit.transform;
 
@@ -98,40 +144,65 @@ public class BuildTool : MonoBehaviour
         var rayOriginLocalSpace = ChunkMapToEdit.transform.InverseTransformPoint(ray.origin);
         var rayDirLocalSpace = ChunkMapToEdit.transform.InverseTransformDirection(ray.direction);
 
+        // first of primary, secondary, tertiary that is active
+        BuildToolInputType inputType =
+            Input.GetButton("ToolPrimary")
+                ? BuildToolInputType.Primary
+                : Input.GetButton("ToolSecondary")
+                    ? BuildToolInputType.Secondary
+                    : Input.GetButton("ToolTertiary")
+                        ? BuildToolInputType.Tertiary
+                        : BuildToolInputType.None;
 
-        if (Input.GetButtonDown("ToolPrimary"))
+        var doTool = false;
+        if (inputType != BuildToolInputType.None)
         {
-            switch (ToolMode)
-            {
-                case BuildToolMode.Frame:
-                    PlaceFrame(ray, rayOriginLocalSpace, rayDirLocalSpace);
-                    break;
-                case BuildToolMode.Surface:
-                    PlaceSurface(ray, rayOriginLocalSpace, rayDirLocalSpace);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            doTool = _inputAccumulator.Increment(ToolMode, inputType,
+                Time.deltaTime, ToolInputDuration);
         }
-        else if (Input.GetButtonDown("ToolSecondary"))
+        else
         {
-            switch (ToolMode)
-            {
-                case BuildToolMode.Frame:
-                    RemoveFrame(ray, rayOriginLocalSpace, rayDirLocalSpace);
-                    break;
-                case BuildToolMode.Surface:
-                    RemoveSurface(ray, rayOriginLocalSpace, rayDirLocalSpace);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-        else if (Input.GetButtonDown("ToolTertiary"))
-        {
+            _inputAccumulator.Reset();
         }
 
-        UpdatePreview(ray, rayOriginLocalSpace, rayDirLocalSpace);
+        if (doTool)
+        {
+            // this section is kind of gross
+            switch (inputType)
+            {
+                case BuildToolInputType.Primary:
+                    switch (ToolMode)
+                    {
+                        case BuildToolMode.Frame:
+                            PlaceFrame(ray, rayOriginLocalSpace, rayDirLocalSpace);
+                            break;
+                        case BuildToolMode.Surface:
+                            PlaceSurface(ray, rayOriginLocalSpace, rayDirLocalSpace);
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                    break;
+                case BuildToolInputType.Secondary:
+                    switch (ToolMode)
+                    {
+                        case BuildToolMode.Frame:
+                            RemoveFrame(ray, rayOriginLocalSpace, rayDirLocalSpace);
+                            break;
+                        case BuildToolMode.Surface:
+                            RemoveSurface(ray, rayOriginLocalSpace, rayDirLocalSpace);
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                    break;
+                case BuildToolInputType.Tertiary:
+                    break;
+            }
+        }
+
+        UpdatePreview(ray, rayOriginLocalSpace, rayDirLocalSpace,
+            _inputAccumulator.Duration / ToolInputDuration);
     }
 
     // Surface placement
