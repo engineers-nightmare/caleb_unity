@@ -8,4 +8,6 @@ public static class Constants
     public static readonly int HalfChunkSize = ChunkSize / 2;
     public static readonly int Log2ChunkSize = 3;
     public static readonly int SpecialFace = 6;     // The extra face on oddly-shaped blocks
+
+    public static readonly int PlayerInventorySize = 5;
 }

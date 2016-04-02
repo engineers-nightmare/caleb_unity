@@ -154,6 +154,7 @@ GameObject:
   - 114: {fileID: 781334861}
   - 114: {fileID: 781334863}
   - 114: {fileID: 781334864}
+  - 114: {fileID: 781334865}
   m_Layer: 0
   m_Name: PlayerLogic
   m_TagString: Untagged
@@ -192,7 +193,9 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 8.905677, y: -2.6972432, z: 9.307304}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 800709472}
+  - {fileID: 1260432578}
   m_Father: {fileID: 0}
   m_RootOrder: 3
 --- !u!114 &781334863
@@ -224,6 +227,51 @@ MonoBehaviour:
   CrouchHeight: 0.5
   StandingCameraOffset: 0.8
   CrouchCameraOffset: 0.2
+--- !u!114 &781334865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 781334860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 222644fda4de2504eaae038d20c36e68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Slots:
+  - {fileID: 800709471}
+  - {fileID: 1260432577}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  ActiveSlot: 0
+--- !u!1 &800709471
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 800709472}
+  m_Layer: 0
+  m_Name: FramingTool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &800709472
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 800709471}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 781334862}
+  m_RootOrder: 0
 --- !u!1 &990383859
 GameObject:
   m_ObjectHideFlags: 0
@@ -360,6 +408,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
+--- !u!1 &1260432577
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1260432578}
+  m_Layer: 0
+  m_Name: SurfaceTool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1260432578
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1260432577}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 781334862}
+  m_RootOrder: 1
 --- !u!143 &1791444505 stripped
 CharacterController:
   m_PrefabParentObject: {fileID: 14300000, guid: 5e9e851c0e142814dac026a256ba2ac0,
