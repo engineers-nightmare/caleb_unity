@@ -140,6 +140,14 @@ Prefab:
       propertyPath: m_UseHeadBob
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 2}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 2}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 2}
   m_IsPrefabParent: 0
@@ -154,6 +162,7 @@ GameObject:
   - 114: {fileID: 781334863}
   - 114: {fileID: 781334864}
   - 114: {fileID: 781334865}
+  - 114: {fileID: 781334861}
   m_Layer: 0
   m_Name: PlayerLogic
   m_TagString: Untagged
@@ -161,6 +170,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &781334861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 781334860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ddb7b801ccd71e46a100c25204262ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentShip: {fileID: 0}
 --- !u!4 &781334862
 Transform:
   m_ObjectHideFlags: 0
@@ -263,7 +284,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlaceSound: {fileID: 8300000, guid: 5897aeed9b676024fbb8c694b421a861, type: 3}
   RemoveSound: {fileID: 8300000, guid: 3b09d59f4499d45428baa7a21e954296, type: 3}
-  ChunkMapToEdit: {fileID: 1993289171}
+  Switcher: {fileID: 781334861}
   FrameMesh: {fileID: 4300000, guid: d9d69da4bedf28d4f8e2efb0ba3a8b1e, type: 3}
   PreviewMaterial: {fileID: 2100000, guid: 1751eb6c451e7874d8ebd6cc2e35fa29, type: 2}
   ToolInputDuration: 0.5
@@ -444,7 +465,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlaceSound: {fileID: 8300000, guid: 5897aeed9b676024fbb8c694b421a861, type: 3}
   RemoveSound: {fileID: 8300000, guid: 3b09d59f4499d45428baa7a21e954296, type: 3}
-  ChunkMapToEdit: {fileID: 1993289171}
+  Switcher: {fileID: 781334861}
   SurfaceMeshes:
   - {fileID: 4300004, guid: d9d69da4bedf28d4f8e2efb0ba3a8b1e, type: 3}
   - {fileID: 4300010, guid: d9d69da4bedf28d4f8e2efb0ba3a8b1e, type: 3}
@@ -503,3 +524,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ChunkPrefab: {fileID: 103634, guid: 4f9f8761da36c0b4196e125f9dc3a864, type: 2}
+--- !u!1 &2012538345
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2012538347}
+  - 114: {fileID: 2012538346}
+  m_Layer: 0
+  m_Name: SecondShip
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2012538346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2012538345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fe63714b7f49e84686b5fb70f3cab4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChunkPrefab: {fileID: 103634, guid: 4f9f8761da36c0b4196e125f9dc3a864, type: 2}
+--- !u!4 &2012538347
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2012538345}
+  m_LocalRotation: {x: -0.19111407, y: 0.30044264, z: -0.06172725, w: 0.9324159}
+  m_LocalPosition: {x: 0, y: 2.45, z: 3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5

@@ -7,23 +7,23 @@ public class FramingTool : MonoBehaviour
     public AudioClip PlaceSound = null;
     public AudioClip RemoveSound = null;
 
-    public ChunkMap ChunkMapToEdit = null;
+    public ShipSwitcher Switcher = null;
 
     public Mesh FrameMesh = null;
     public Material PreviewMaterial = null;
 
     public float ToolInputDuration = 0.5f;
 
-    private BuildToolInputAccumulator _inputAccumulator = new BuildToolInputAccumulator();
+    BuildToolInputAccumulator inputAccumulator = new BuildToolInputAccumulator();
 
-    private void UpdatePreview(Ray ray, Vector3 rayOriginLocalSpace,
-        Vector3 rayDirLocalSpace, float scale)
+    void UpdatePreview(Ray ray, Vector3 rayOriginLocalSpace,
+        Vector3 rayDirLocalSpace, float progress)
     {
-        var ceTrans = ChunkMapToEdit.transform;
+        var ceTrans = Switcher.CurrentShip.transform;
 
         foreach (var fc in ChunkData.BlockCrossingsLocalSpace(rayOriginLocalSpace, rayDirLocalSpace, 5.0f))
         {
-            var ce = ChunkMapToEdit.GetChunk(IntVec3.BlockCoordToChunkCoord(fc.pos));
+            var ce = Switcher.CurrentShip.GetChunk(IntVec3.BlockCoordToChunkCoord(fc.pos));
             var co = IntVec3.BlockCoordToChunkOffset(fc.pos);
             if (ce != null && ce.Contents[co.x, co.y, co.z] != 0)
             {
@@ -34,12 +34,15 @@ public class FramingTool : MonoBehaviour
         }
     }
     
-    private void Update()
+    void Update()
     {
         var ray = Camera.main.ScreenPointToRay(new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 0));
 
-        var rayOriginLocalSpace = ChunkMapToEdit.transform.InverseTransformPoint(ray.origin);
-        var rayDirLocalSpace = ChunkMapToEdit.transform.InverseTransformDirection(ray.direction);
+        if (Switcher.CurrentShip == null)
+            return;
+
+        var rayOriginLocalSpace = Switcher.CurrentShip.transform.InverseTransformPoint(ray.origin);
+        var rayDirLocalSpace = Switcher.CurrentShip.transform.InverseTransformDirection(ray.direction);
 
         // first of primary, secondary, tertiary that is active
         BuildToolInputType inputType =
@@ -54,12 +57,12 @@ public class FramingTool : MonoBehaviour
         var doTool = false;
         if (inputType != BuildToolInputType.None)
         {
-            doTool = _inputAccumulator.Increment(inputType,
+            doTool = inputAccumulator.Increment(inputType,
                 Time.deltaTime, ToolInputDuration);
         }
         else
         {
-            _inputAccumulator.Reset();
+            inputAccumulator.Reset();
         }
 
         if (doTool)
@@ -78,7 +81,7 @@ public class FramingTool : MonoBehaviour
         }
 
         UpdatePreview(ray, rayOriginLocalSpace, rayDirLocalSpace,
-            _inputAccumulator.Duration / ToolInputDuration);
+            inputAccumulator.Duration / ToolInputDuration);
     }
 
     // Place block tool -- places a block against the block we hit, sharing the face we hit
@@ -86,13 +89,13 @@ public class FramingTool : MonoBehaviour
     {
         foreach (var fc in ChunkData.BlockCrossingsLocalSpace(rayOriginLocalSpace, rayDirLocalSpace, 5.0f))
         {
-            var ce = ChunkMapToEdit.GetChunk(IntVec3.BlockCoordToChunkCoord(fc.pos));
+            var ce = Switcher.CurrentShip.GetChunk(IntVec3.BlockCoordToChunkCoord(fc.pos));
             var co = IntVec3.BlockCoordToChunkOffset(fc.pos);
             if (ce != null && ce.Contents[co.x, co.y, co.z] != 0)
             {
                 // Step back along normal.
                 var p = fc.pos + fc.normal;
-                var ce2 = ChunkMapToEdit.EnsureChunk(IntVec3.BlockCoordToChunkCoord(p));
+                var ce2 = Switcher.CurrentShip.EnsureChunk(IntVec3.BlockCoordToChunkCoord(p));
                 var co2 = IntVec3.BlockCoordToChunkOffset(p);
 
                 ce2.Contents[co2.x, co2.y, co2.z] = 1;
@@ -109,7 +112,7 @@ public class FramingTool : MonoBehaviour
     {
         foreach (var fc in ChunkData.BlockCrossingsLocalSpace(rayOriginLocalSpace, rayDirLocalSpace, 5.0f))
         {
-            var ce = ChunkMapToEdit.GetChunk(IntVec3.BlockCoordToChunkCoord(fc.pos));
+            var ce = Switcher.CurrentShip.GetChunk(IntVec3.BlockCoordToChunkCoord(fc.pos));
             var co = IntVec3.BlockCoordToChunkOffset(fc.pos);
             if (ce != null && ce.Contents[co.x, co.y, co.z] != 0)
             {
