@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+  <asset>
+    <contributor>
+      <author>Blender User</author>
+      <authoring_tool>Blender 2.77.0 commit date:2016-03-18, commit time:12:34, hash:22a2853</authoring_tool>
+    </contributor>
+    <created>2016-04-03T10:46:39</created>
+    <modified>2016-04-03T10:46:39</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_images/>
+  <library_effects>
+    <effect id="Material_007-effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <color sid="diffuse">0.64 0.64 0.64 1</color>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.0625 0.0625 0.0625 1</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">50</float>
+            </shininess>
+            <index_of_refraction>
+              <float sid="index_of_refraction">1</float>
+            </index_of_refraction>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+    <effect id="Material_001-effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <color sid="diffuse">0.64 0.64 0.64 1</color>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.25 0.25 0.25 1</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">50</float>
+            </shininess>
+            <index_of_refraction>
+              <float sid="index_of_refraction">1</float>
+            </index_of_refraction>
+          </phong>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_materials>
+    <material id="Material_007-material" name="Material_007">
+      <instance_effect url="#Material_007-effect"/>
+    </material>
+    <material id="Material_001-material" name="Material_001">
+      <instance_effect url="#Material_001-effect"/>
+    </material>
+  </library_materials>
+  <library_geometries>
+    <geometry id="frame_g-mesh" name="frame_g">
+      <mesh>
+        <source id="frame_g-mesh-positions">
+          <float_array id="frame_g-mesh-positions-array" count="126">-0.9 1 0.1 -0.9 1 0 -1 1 0 -1 1 0.1 -0.9 0 0.0999999 -1 0 0.0999999 -1 0 0 -0.9 0 0 0 0.1 0.0999999 0 0 0.0999999 0 0 0 0 0.1 0 -0.9 0.1 0 -1 0.1 0 -0.09999996 0.8999999 1 -0.09999996 1 1 -0.09999996 0.1 0 -0.09999996 0 0 -0.09999996 0 0.0999999 -0.09999996 1 0.1 -0.09999996 1 0 0 1 0.1 0 1 0 0 0.8999999 1 0 1 1 0 0 1 -0.09999996 0 1 -0.09999996 0 0.8999999 0 0 0.8999999 0 1 0.9 -0.09999996 1 0.9 -1 0.1 0.0999999 0 0.0999999 1 0 0.0999999 0.8999999 0 0.8999999 0.9 0 0.9 0.09999996 -1 0.9 0 -1 0.9 0.09999996 -0.09999996 0.0999999 1 0 0.9 0 -0.09999996 0.9 0 -0.9 0.9 0</float_array>
+          <technique_common>
+            <accessor source="#frame_g-mesh-positions-array" count="42" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="frame_g-mesh-normals">
+          <float_array id="frame_g-mesh-normals-array" count="99">0 1 0 0 -1 0 1 0 0 0 0 -1 -0.707107 -2.34149e-7 0.7071066 0 0 1 -1 0 0 -0.7071068 0 0.7071068 0.5773503 -0.5773497 -0.5773509 0.5773499 0.5773507 0.5773503 0.7071066 -1.31709e-7 0.707107 -0.5773505 -0.5773498 -0.5773505 -0.7071072 -0.7071064 -1.31709e-7 -0.5773503 -0.5773505 0.5773502 0 -0.7071067 0.707107 0.57735 -0.5773508 0.57735 0.57735 0.5773509 -0.57735 -0.5773501 0.5773509 -0.5773499 -0.7071066 0.707107 0 -0.7071067 0 -0.707107 -0.7071066 0 0.707107 -0.5773503 0.57735 0.5773506 0 0.7071065 0.7071071 -0.7071065 0 0.7071071 0.5773505 -0.5773501 -0.5773501 0.7071067 0 0.7071069 -0.7071069 -0.7071068 0 0 -0.7071072 0.7071065 0.5773505 0.5773499 -0.5773505 -0.707107 0.7071067 0 -0.7071077 0 -0.7071059 -0.7071068 0 0.7071068 0 0.7071065 0.7071072</float_array>
+          <technique_common>
+            <accessor source="#frame_g-mesh-normals-array" count="33" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="frame_g-mesh-map-0">
+          <float_array id="frame_g-mesh-map-0-array" count="576">1.00814e-4 0.1000795 1.00814e-4 9.998e-5 0.1000804 1.0004e-4 9.99799e-5 0.1000798 1.00099e-4 9.99799e-5 0.10008 1.00159e-4 1.00755e-4 0.1000797 1.00814e-4 9.998e-5 0.1000807 1.0004e-4 1.00528e-4 0.1000798 1.0057e-4 9.998e-5 0.1000804 1.00022e-4 1 1 0 1 0 0.8999998 1.00022e-4 0.8999199 1.00528e-4 0.1000798 0.1000803 0.1000799 0.1000798 0.1000799 0.10008 1.00159e-4 0.8999184 1.00576e-4 9.998e-5 0.8999193 1.00814e-4 0.1000795 0.1000804 0.1000796 9.998e-5 0.9998993 9.998e-5 0.8999193 0.10008 0.8999193 0.8999183 0.1000801 0.8999184 1.00576e-4 0.999898 1.00635e-4 9.998e-5 0.9998999 1.00022e-4 0.8999199 0.10008 0.8999198 0.9998999 0.9999001 0.8999199 0.9999001 0.8999199 0.8999199 0.8999166 0.9998999 0.899917 0.8999192 0.9998971 0.8999195 0.8999201 0.9998992 0.8999201 0.8999195 0.9998999 0.8999193 0.8999201 0.8999195 0.1000804 0.1000796 0.1000804 1.0004e-4 9.99799e-5 0.1000798 0.1000798 0.1000799 0.899917 0.8999192 0.10008 0.9998999 9.998e-5 0.9998999 1.0004e-4 0.8999198 1.00457e-4 0.9999001 1.00338e-4 0.8999202 0.1000804 0.8999201 0.899917 0.8999192 0.8999183 0.1000801 0.9998979 0.1000802 0.10008 0.9998993 0.10008 0.8999193 0.8999201 0.8999195 1.0004e-4 0.8999198 1.00755e-4 0.1000797 0.1000806 0.1000798 0.89992 0.8999199 0.8999199 0.1000803 0.9998996 0.1000803 0.9999001 0.9998986 0.8999203 0.9998986 0.8999201 0.8999189 0.89992 0.9998997 0.89992 0.8999199 0.9999001 0.8999198 0.9998999 0.8999199 0.8999199 0.8999199 0.8999197 0.1000798 0.8999202 0.9998995 0.8999201 0.8999196 0.9998999 0.8999196 0.8999201 0.8999196 0.89992 0.10008 0.9998996 0.1000801 0.89992 0.10008 0.89992 1.00359e-4 0.9998996 1.00359e-4 0.8999199 0.1000803 0.8999199 1.00606e-4 0.9998996 1.00636e-4 1 0.09999996 0 0.1000002 0 0 0.9998995 0.1000797 0.8999197 0.1000798 0.8999197 9.998e-5 0.1000804 0.9999001 0.1000804 0.8999201 0.8999201 0.8999189 0.10008 0.9998999 0.10008 0.8999198 0.89992 0.8999199 0.10008 0.9998999 0.10008 0.8999198 0.8999201 0.8999196 0.1000803 0.1000799 0.1000804 1.00022e-4 0.89992 1.00359e-4 0.1000806 0.1000798 0.1000807 1.0004e-4 0.8999199 1.00606e-4 0.8999999 1 0.8999999 0.8999999 0.1000001 0.8999999 0 0.0999999 0.1000001 0 0.1000001 0.0999999 0 0.8999999 0 0.0999999 0.1000001 0.0999999 1 0.8999999 0.8999999 1 0.8999999 0.8999999 1 0.09999972 1 0.8999999 0.8999999 0.8999999 0.8999999 0.8999999 1 0.8999999 0.8999999 1 0.1000001 0.8999999 0.8999999 0.8999999 0.8999999 1 0 0.8999999 0.1000001 0.8999999 0.1000001 1 0.1000001 1 0.8999999 1 0.8999999 0.8999999 0.8999999 1 1 0.8999999 0.8999999 0.8999999 0.8999999 0.0999999 0.8999999 0.8999999 1 0.8999999 0.8999999 1 0.8999999 1 1 0.8999999 0.8999999 0.0999999 1 0.0999999 1 0.8999999 1 0.0999999 0.8999999 0.0999999 0.8999999 0 0.8999999 0 0.8999999 0.0999999 0.1000001 0.0999999 0.1000804 0.1000796 1.00814e-4 0.1000795 0.1000804 1.0004e-4 0.1000798 0.1000799 9.99799e-5 0.1000798 0.10008 1.00159e-4 0.1000806 0.1000798 1.00755e-4 0.1000797 0.1000807 1.0004e-4 0.1000803 0.1000799 1.00528e-4 0.1000798 0.1000804 1.00022e-4 1 0.8999998 1 1 0 0.8999998 0.10008 0.8999198 1.00022e-4 0.8999199 0.1000803 0.1000799 0.8999183 0.1000801 0.1000798 0.1000799 0.8999184 1.00576e-4 0.10008 0.8999193 9.998e-5 0.8999193 0.1000804 0.1000796 0.10008 0.9998993 9.998e-5 0.9998993 0.10008 0.8999193 0.9998979 0.1000802 0.8999183 0.1000801 0.999898 1.00635e-4 0.10008 0.9998999 9.998e-5 0.9998999 0.10008 0.8999198 0.9998999 0.8999199 0.9998999 0.9999001 0.8999199 0.8999199 0.9998971 0.9999001 0.8999166 0.9998999 0.9998971 0.8999195 0.9999001 0.9998992 0.8999201 0.9998992 0.9998999 0.8999193 0.9998999 0.8999193 0.8999201 0.8999195 0.1000804 1.0004e-4 0.8999166 0.9998999 9.99799e-5 0.1000798 0.899917 0.8999192 0.10008 0.8999198 0.10008 0.9998999 1.0004e-4 0.8999198 0.1000804 0.9999001 1.00457e-4 0.9999001 0.1000804 0.8999201 0.9998971 0.8999195 0.899917 0.8999192 0.9998979 0.1000802 0.8999201 0.9998992 0.10008 0.9998993 0.8999201 0.8999195 0.10008 0.8999198 1.0004e-4 0.8999198 0.1000806 0.1000798 0.9999001 0.8999198 0.89992 0.8999199 0.9998996 0.1000803 0.9999001 0.8999186 0.9999001 0.9998986 0.8999201 0.8999189 0.9999001 0.9998997 0.89992 0.9998997 0.9999001 0.8999198 0.9998995 0.1000797 0.9998999 0.8999199 0.8999197 0.1000798 0.9999 0.9998994 0.8999202 0.9998995 0.9998999 0.8999196 0.9998999 0.8999196 0.8999201 0.8999196 0.9998996 0.1000801 0.9998996 0.1000801 0.89992 0.10008 0.9998996 1.00359e-4 0.9998996 0.1000803 0.8999199 0.1000803 0.9998996 1.00636e-4 1 0 1 0.09999996 0 0 0.9998995 9.998e-5 0.9998995 0.1000797 0.8999197 9.998e-5 0.8999203 0.9998986 0.1000804 0.9999001 0.8999201 0.8999189 0.89992 0.9998997 0.10008 0.9998999 0.89992 0.8999199 0.8999202 0.9998995 0.10008 0.9998999 0.8999201 0.8999196 0.89992 0.10008 0.1000803 0.1000799 0.89992 1.00359e-4 0.8999199 0.1000803 0.1000806 0.1000798 0.8999199 1.00606e-4 0.1000001 1 0.8999999 1 0.1000001 0.8999999 0.1000001 0.8999999 0 0.8999999 0.1000001 0.0999999 0.8999999 0.09999972 1 0.09999972 0.8999999 0.8999999 0.1000001 1 0.1000001 0.8999999 0.8999999 1 0.1000001 0 0.1000001 0.0999999 0.8999999 0 1 0.09999972 0.8999999 0.0999999 1 0.8999999 1 0.8999999 0.8999999 1 1 0.8999999 0.8999999 0.8999999 0.8999999 0.0999999 1 0.8999999 0.1000001 0 0.8999999 0 0.1000001 0.0999999</float_array>
+          <technique_common>
+            <accessor source="#frame_g-mesh-map-0-array" count="288" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="frame_g-mesh-vertices">
+          <input semantic="POSITION" source="#frame_g-mesh-positions"/>
+        </vertices>
+        <polylist material="Material_007-material" count="96">
+          <input semantic="VERTEX" source="#frame_g-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#frame_g-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#frame_g-mesh-map-0" offset="2" set="0"/>
+          <vcount>3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 </vcount>
+          <p>1 0 0 2 0 1 3 0 2 5 1 3 6 1 4 7 1 5 9 2 6 10 2 7 11 2 8 7 3 9 6 3 10 13 3 11 15 4 12 3 4 13 37 4 14 17 3 15 7 3 16 12 3 17 4 1 18 7 1 19 17 1 20 20 0 21 1 0 22 0 0 23 22 0 24 20 0 25 19 0 26 18 1 27 17 1 28 10 1 29 10 3 30 17 3 31 16 3 32 24 5 33 15 5 34 14 5 35 26 1 36 27 1 37 28 1 38 29 0 39 30 0 40 15 0 41 30 0 42 0 0 43 3 0 44 5 1 45 4 1 46 27 1 47 32 2 48 25 2 49 28 2 50 6 6 51 5 6 52 31 6 53 27 1 54 18 1 55 9 1 56 21 0 57 19 0 58 30 0 59 28 2 60 9 2 61 8 2 62 34 2 63 35 2 64 21 2 65 2 6 66 36 6 67 37 6 68 23 2 69 34 2 70 29 2 71 23 5 72 14 5 73 38 5 74 39 3 75 40 3 76 20 3 77 40 3 78 41 3 79 1 3 80 41 3 81 36 3 82 2 3 83 35 2 84 39 2 85 22 2 86 38 7 87 31 7 88 5 7 89 32 5 90 38 5 91 26 5 92 13 6 93 31 6 94 37 6 95 32 2 96 33 2 97 34 2 98 11 3 99 16 3 100 40 3 101 12 3 102 13 3 103 36 3 104 8 2 105 11 2 106 39 2 107 30 8 108 14 8 109 37 8 110 31 9 111 4 9 112 12 9 113 37 10 114 31 10 115 12 10 116 34 11 117 14 11 118 30 11 119 35 12 120 34 12 121 30 12 122 40 13 123 35 13 124 19 13 125 41 14 126 40 14 127 19 14 128 37 15 129 41 15 130 0 15 131 31 16 132 38 16 133 27 16 134 38 17 135 33 17 136 27 17 137 18 18 138 27 18 139 33 18 140 38 19 141 14 19 142 34 19 143 16 20 144 8 20 145 35 20 146 8 21 147 16 21 148 18 21 149 18 22 150 16 22 151 12 22 152 0 0 153 1 0 154 3 0 155 4 1 156 5 1 157 7 1 158 8 2 159 9 2 160 11 2 161 12 3 162 7 3 163 13 3 164 14 23 165 15 23 166 37 23 167 16 3 168 17 3 169 12 3 170 18 1 171 4 1 172 17 1 173 19 0 174 20 0 175 0 0 176 21 0 177 22 0 178 19 0 179 9 1 180 18 1 181 10 1 182 11 3 183 10 3 184 16 3 185 23 5 186 24 5 187 14 5 188 25 1 189 26 1 190 28 1 191 24 0 192 29 0 193 15 0 194 15 0 195 30 0 196 3 0 197 26 1 198 5 1 199 27 1 200 33 2 201 32 2 202 28 2 203 13 6 204 6 6 205 31 6 206 28 1 207 27 1 208 9 1 209 29 0 210 21 0 211 30 0 212 33 2 213 28 2 214 8 2 215 29 2 216 34 2 217 21 2 218 3 6 219 2 6 220 37 6 221 24 2 222 23 2 223 29 2 224 32 5 225 23 5 226 38 5 227 22 3 228 39 3 229 20 3 230 20 3 231 40 3 232 1 3 233 1 3 234 41 3 235 2 3 236 21 2 237 35 2 238 22 2 239 26 7 240 38 7 241 5 7 242 25 5 243 32 5 244 26 5 245 36 6 246 13 6 247 37 6 248 23 2 249 32 2 250 34 2 251 39 3 252 11 3 253 40 3 254 41 3 255 12 3 256 36 3 257 35 2 258 8 2 259 39 2 260 0 24 261 30 24 262 37 24 263 41 25 264 37 25 265 12 25 266 19 26 267 35 26 268 30 26 269 0 27 270 41 27 271 19 27 272 4 28 273 31 28 274 27 28 275 8 29 276 18 29 277 33 29 278 33 30 279 38 30 280 34 30 281 40 31 282 16 31 283 35 31 284 4 32 285 18 32 286 12 32 287</p>
+        </polylist>
+      </mesh>
+    </geometry>
+    <geometry id="surf_nx_g_002-mesh" name="surf_nx_g.002">
+      <mesh>
+        <source id="surf_nx_g_002-mesh-positions">
+          <float_array id="surf_nx_g_002-mesh-positions-array" count="24">-0.05000013 0.9500001 0.05000001 -0.05000013 0.9500001 0.95 -0.05000001 0.05000001 0.05000001 -0.05000001 0.05000001 0.95 -0.05000013 0.9500001 0.05000001 -0.05000013 0.9500001 0.95 -0.05000001 0.05000001 0.05000001 -0.05000001 0.05000001 0.95</float_array>
+          <technique_common>
+            <accessor source="#surf_nx_g_002-mesh-positions-array" count="8" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="surf_nx_g_002-mesh-normals">
+          <float_array id="surf_nx_g_002-mesh-normals-array" count="6">-1 -1.37974e-7 0 1 1.37974e-7 0</float_array>
+          <technique_common>
+            <accessor source="#surf_nx_g_002-mesh-normals-array" count="2" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="surf_nx_g_002-mesh-map-0">
+          <float_array id="surf_nx_g_002-mesh-map-0-array" count="24">0.9998999 9.998e-5 1.0004e-4 0.9998999 9.998e-5 9.998e-5 0.9999001 0.9999001 9.998e-5 9.998e-5 0.9999001 1.00099e-4 0.9998999 9.998e-5 0.9999001 0.9998999 1.0004e-4 0.9998999 0.9999001 0.9999001 9.998e-5 0.9999001 9.998e-5 9.998e-5</float_array>
+          <technique_common>
+            <accessor source="#surf_nx_g_002-mesh-map-0-array" count="12" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="surf_nx_g_002-mesh-vertices">
+          <input semantic="POSITION" source="#surf_nx_g_002-mesh-positions"/>
+        </vertices>
+        <polylist material="Material_001-material" count="4">
+          <input semantic="VERTEX" source="#surf_nx_g_002-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#surf_nx_g_002-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#surf_nx_g_002-mesh-map-0" offset="2" set="0"/>
+          <vcount>3 3 3 3 </vcount>
+          <p>2 0 0 1 0 1 0 0 2 6 1 3 5 1 4 7 1 5 2 0 6 3 0 7 1 0 8 6 1 9 4 1 10 5 1 11</p>
+        </polylist>
+      </mesh>
+    </geometry>
+    <geometry id="surf_nx_g_003-mesh" name="surf_nx_g.003">
+      <mesh>
+        <source id="surf_nx_g_003-mesh-positions">
+          <float_array id="surf_nx_g_003-mesh-positions-array" count="18">-0.05000001 0.05000013 0.05000001 -0.95 0.04999995 0.05000001 -0.05079329 0.04999995 0.95 -0.05000001 0.05000013 0.05000001 -0.95 0.04999995 0.05000001 -0.05079329 0.04999995 0.95</float_array>
+          <technique_common>
+            <accessor source="#surf_nx_g_003-mesh-positions-array" count="6" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="surf_nx_g_003-mesh-normals">
+          <float_array id="surf_nx_g_003-mesh-normals-array" count="6">-2.02821e-7 1 1.99981e-7 2.02821e-7 -1 -1.99981e-7</float_array>
+          <technique_common>
+            <accessor source="#surf_nx_g_003-mesh-normals-array" count="2" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="surf_nx_g_003-mesh-map-0">
+          <float_array id="surf_nx_g_003-mesh-map-0-array" count="12">0.9998999 9.998e-5 1.0004e-4 0.9998999 9.998e-5 9.998e-5 0.9999001 0.9999001 9.998e-5 0.9999001 9.998e-5 9.998e-5</float_array>
+          <technique_common>
+            <accessor source="#surf_nx_g_003-mesh-map-0-array" count="6" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="surf_nx_g_003-mesh-vertices">
+          <input semantic="POSITION" source="#surf_nx_g_003-mesh-positions"/>
+        </vertices>
+        <polylist material="Material_001-material" count="2">
+          <input semantic="VERTEX" source="#surf_nx_g_003-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#surf_nx_g_003-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#surf_nx_g_003-mesh-map-0" offset="2" set="0"/>
+          <vcount>3 3 </vcount>
+          <p>1 0 0 2 0 1 0 0 2 4 1 3 3 1 4 5 1 5</p>
+        </polylist>
+      </mesh>
+    </geometry>
+    <geometry id="surf_nx_g_004-mesh" name="surf_nx_g.004">
+      <mesh>
+        <source id="surf_nx_g_004-mesh-positions">
+          <float_array id="surf_nx_g_004-mesh-positions-array" count="18">-0.95 0.95 0.05000001 -0.05000001 0.95 0.05000001 -0.95 0.95 0.05000001 -0.05010211 0.95 0.95 -0.05000001 0.95 0.05000001 -0.05155408 0.95 0.9485478</float_array>
+          <technique_common>
+            <accessor source="#surf_nx_g_004-mesh-positions-array" count="6" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="surf_nx_g_004-mesh-normals">
+          <float_array id="surf_nx_g_004-mesh-normals-array" count="6">0 -1 0 0 1 0</float_array>
+          <technique_common>
+            <accessor source="#surf_nx_g_004-mesh-normals-array" count="2" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="surf_nx_g_004-mesh-map-0">
+          <float_array id="surf_nx_g_004-mesh-map-0-array" count="12">0.9998999 9.998e-5 1.0004e-4 0.9998999 9.998e-5 9.998e-5 0.9999001 0.9999001 9.998e-5 0.9999001 9.998e-5 9.998e-5</float_array>
+          <technique_common>
+            <accessor source="#surf_nx_g_004-mesh-map-0-array" count="6" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="surf_nx_g_004-mesh-vertices">
+          <input semantic="POSITION" source="#surf_nx_g_004-mesh-positions"/>
+        </vertices>
+        <polylist material="Material_001-material" count="2">
+          <input semantic="VERTEX" source="#surf_nx_g_004-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#surf_nx_g_004-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#surf_nx_g_004-mesh-map-0" offset="2" set="0"/>
+          <vcount>3 3 </vcount>
+          <p>1 0 0 3 0 1 0 0 2 4 1 3 2 1 4 5 1 5</p>
+        </polylist>
+      </mesh>
+    </geometry>
+    <geometry id="surf_nx_g_005-mesh" name="surf_nx_g.005">
+      <mesh>
+        <source id="surf_nx_g_005-mesh-positions">
+          <float_array id="surf_nx_g_005-mesh-positions-array" count="24">-0.05000001 0.05000001 0.05000001 -0.9499999 0.05000001 0.05000001 -0.05000001 0.95 0.05000001 -0.9499999 0.95 0.05000001 -0.05000001 0.05000001 0.05000001 -0.9499999 0.05000001 0.05000001 -0.05000001 0.95 0.05000001 -0.9499999 0.95 0.05000001</float_array>
+          <technique_common>
+            <accessor source="#surf_nx_g_005-mesh-positions-array" count="8" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="surf_nx_g_005-mesh-normals">
+          <float_array id="surf_nx_g_005-mesh-normals-array" count="6">0 0 1 0 0 -1</float_array>
+          <technique_common>
+            <accessor source="#surf_nx_g_005-mesh-normals-array" count="2" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="surf_nx_g_005-mesh-map-0">
+          <float_array id="surf_nx_g_005-mesh-map-0-array" count="24">0.9998999 9.998e-5 1.0004e-4 0.9998999 9.998e-5 9.998e-5 0.9999001 0.9999001 9.998e-5 9.998e-5 0.9999001 1.00099e-4 0.9998999 9.998e-5 0.9999001 0.9998999 1.0004e-4 0.9998999 0.9999001 0.9999001 9.998e-5 0.9999001 9.998e-5 9.998e-5</float_array>
+          <technique_common>
+            <accessor source="#surf_nx_g_005-mesh-map-0-array" count="12" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="surf_nx_g_005-mesh-vertices">
+          <input semantic="POSITION" source="#surf_nx_g_005-mesh-positions"/>
+        </vertices>
+        <polylist material="Material_001-material" count="4">
+          <input semantic="VERTEX" source="#surf_nx_g_005-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#surf_nx_g_005-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#surf_nx_g_005-mesh-map-0" offset="2" set="0"/>
+          <vcount>3 3 3 3 </vcount>
+          <p>2 0 0 1 0 1 0 0 2 6 1 3 5 1 4 7 1 5 2 0 6 3 0 7 1 0 8 6 1 9 4 1 10 5 1 11</p>
+        </polylist>
+      </mesh>
+    </geometry>
+    <geometry id="surf_nx_g_006-mesh" name="surf_nx_g.006">
+      <mesh>
+        <source id="surf_nx_g_006-mesh-positions">
+          <float_array id="surf_nx_g_006-mesh-positions-array" count="24">-0.95 0.05000001 0.05000001 -0.95 0.95 0.05000001 -0.05066722 0.95 0.95 -0.95 0.05000001 0.05000001 -0.05066722 0.05000001 0.95 -0.95 0.95 0.05000001 -0.05066722 0.95 0.95 -0.05066722 0.05000001 0.95</float_array>
+          <technique_common>
+            <accessor source="#surf_nx_g_006-mesh-positions-array" count="8" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="surf_nx_g_006-mesh-normals">
+          <float_array id="surf_nx_g_006-mesh-normals-array" count="6">0.7073689 0 -0.7068445 -0.7073689 0 0.7068445</float_array>
+          <technique_common>
+            <accessor source="#surf_nx_g_006-mesh-normals-array" count="2" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="surf_nx_g_006-mesh-map-0">
+          <float_array id="surf_nx_g_006-mesh-map-0-array" count="24">0 1 1 0 0 0 0 1 1 0 1 1 0 1 1 1 1 0 0 1 0 0 1 0</float_array>
+          <technique_common>
+            <accessor source="#surf_nx_g_006-mesh-map-0-array" count="12" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="surf_nx_g_006-mesh-map-1">
+          <float_array id="surf_nx_g_006-mesh-map-1-array" count="24">0.9998999 9.998e-5 1.0004e-4 0.9998999 9.998e-5 9.998e-5 0.9999001 0.9999001 9.998e-5 9.998e-5 0.9999001 1.00099e-4 0.9998999 9.998e-5 0.9999001 0.9998999 1.0004e-4 0.9998999 0.9999001 0.9999001 9.998e-5 0.9999001 9.998e-5 9.998e-5</float_array>
+          <technique_common>
+            <accessor source="#surf_nx_g_006-mesh-map-1-array" count="12" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="surf_nx_g_006-mesh-vertices">
+          <input semantic="POSITION" source="#surf_nx_g_006-mesh-positions"/>
+        </vertices>
+        <polylist material="Material_001-material" count="4">
+          <input semantic="VERTEX" source="#surf_nx_g_006-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#surf_nx_g_006-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#surf_nx_g_006-mesh-map-0" offset="2" set="0"/>
+          <input semantic="TEXCOORD" source="#surf_nx_g_006-mesh-map-1" offset="2" set="1"/>
+          <vcount>3 3 3 3 </vcount>
+          <p>1 0 0 4 0 1 0 0 2 5 1 3 7 1 4 2 1 5 1 0 6 6 0 7 4 0 8 5 1 9 3 1 10 7 1 11</p>
+        </polylist>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_controllers/>
+  <library_visual_scenes>
+    <visual_scene id="Scene" name="Scene">
+      <node id="frame" name="frame" type="NODE">
+        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        <instance_geometry url="#frame_g-mesh" name="frame">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="Material_007-material" target="#Material_007-material"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+      <node id="surf_px" name="surf_px" type="NODE">
+        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        <instance_geometry url="#surf_nx_g_002-mesh" name="surf_px">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="Material_001-material" target="#Material_001-material"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+      <node id="surf_ny" name="surf_ny" type="NODE">
+        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        <instance_geometry url="#surf_nx_g_003-mesh" name="surf_ny">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="Material_001-material" target="#Material_001-material"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+      <node id="surf_py" name="surf_py" type="NODE">
+        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        <instance_geometry url="#surf_nx_g_004-mesh" name="surf_py">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="Material_001-material" target="#Material_001-material"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+      <node id="surf_nz" name="surf_nz" type="NODE">
+        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        <instance_geometry url="#surf_nx_g_005-mesh" name="surf_nz">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="Material_001-material" target="#Material_001-material"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+      <node id="surf_pz" name="surf_pz" type="NODE">
+        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        <instance_geometry url="#surf_nx_g_006-mesh" name="surf_pz">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="Material_001-material" target="#Material_001-material"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#Scene"/>
+  </scene>
+</COLLADA>
