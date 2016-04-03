@@ -18,7 +18,7 @@ public struct BlockHit
 public class ChunkData : MonoBehaviour
 {
     public byte[,,] Contents = new byte[Constants.ChunkSize, Constants.ChunkSize, Constants.ChunkSize];
-    public byte[,,,] Faces = new byte[Constants.ChunkSize, Constants.ChunkSize, Constants.ChunkSize, 6];
+    public byte[,,,] Faces = new byte[Constants.ChunkSize, Constants.ChunkSize, Constants.ChunkSize, 7];
     public int generation;
 
     ChunkData()

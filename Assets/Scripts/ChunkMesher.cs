@@ -6,8 +6,7 @@ public class ChunkMesher : MonoBehaviour
     public ChunkData Data;
     int? generation;
 
-    public Mesh FrameMeshTemplate;
-    public Mesh[] FaceMeshTemplates = new Mesh[6];
+    public BlockShapeSet Shapes;
     public MeshFilter OutputMeshFilter;
     public MeshCollider OutputMeshCollider;
     public MeshRenderer OutputMeshRenderer;
@@ -27,17 +26,23 @@ public class ChunkMesher : MonoBehaviour
         var frameIndices = new List<int>();
         var faceIndices = new List<int>();
 
-        var templateMeshVerts = FrameMeshTemplate.vertices;
-        var templateMeshIndices = FrameMeshTemplate.triangles;
-        var templateMeshUvs = FrameMeshTemplate.uv;
-        var templateMeshNormals = FrameMeshTemplate.normals;
+        // TODO: turn this inside out again for perf if we need it.
+        // Assumptions: there is /never/ a visible face without framing. The mesher won't
+        // even consider such things.
 
         for (int i = 0; i < Constants.ChunkSize; i++)
             for (int j = 0; j < Constants.ChunkSize; j++)
                 for (int k = 0; k < Constants.ChunkSize; k++)
                 {
-                    if (Data.Contents[i, j, k] != 0)
+                    var shapeIndex = Data.Contents[i, j, k];
+                    if (shapeIndex != 0)
                     {
+                        var shape = Shapes.Shapes[shapeIndex];
+                        var templateMeshVerts = shape.FrameMesh.vertices;
+                        var templateMeshIndices = shape.FrameMesh.triangles;
+                        var templateMeshUvs = shape.FrameMesh.uv;
+                        var templateMeshNormals = shape.FrameMesh.normals;
+
                         var p = new Vector3(i, j, k);
                         var indexOffset = verts.Count;
 
@@ -49,37 +54,31 @@ public class ChunkMesher : MonoBehaviour
                             normals.Add(n);
                         foreach (var ind in templateMeshIndices)
                             frameIndices.Add(indexOffset + ind);
-                    }
-                }
 
-        for (int faceIndex = 0; faceIndex < 6; faceIndex++)
-        {
-            templateMeshVerts = FaceMeshTemplates[faceIndex].vertices;
-            templateMeshIndices = FaceMeshTemplates[faceIndex].triangles;
-            templateMeshUvs = FaceMeshTemplates[faceIndex].uv;
-            templateMeshNormals = FaceMeshTemplates[faceIndex].normals;
-
-            for (int i = 0; i < Constants.ChunkSize; i++)
-                for (int j = 0; j < Constants.ChunkSize; j++)
-                    for (int k = 0; k < Constants.ChunkSize; k++)
-                    {
-                        var surfaceType = Data.Faces[i, j, k, faceIndex];
-                        if (surfaceType != 0)
+                        for (int faceIndex = 0; faceIndex < shape.FaceMeshes.Length; faceIndex++)
                         {
-                            var p = new Vector3(i, j, k);
-                            var indexOffset = verts.Count;
+                            var surfaceType = Data.Faces[i, j, k, faceIndex];
+                            if (surfaceType != 0)
+                            {
+                                var faceMesh = shape.FaceMeshes[faceIndex];
+                                templateMeshVerts = faceMesh.vertices;
+                                templateMeshIndices = faceMesh.triangles;
+                                templateMeshUvs = faceMesh.uv;
+                                templateMeshNormals = faceMesh.normals;
+                                indexOffset = verts.Count;
 
-                            foreach (var v in templateMeshVerts)
-                                verts.Add(p + v);
-                            foreach (var uv in templateMeshUvs)
-                                uvs.Add(uv);
-                            foreach (var n in templateMeshNormals)
-                                normals.Add(n);
-                            foreach (var ind in templateMeshIndices)
-                                faceIndices.Add(indexOffset + ind);
+                                foreach (var v in templateMeshVerts)
+                                    verts.Add(p + v);
+                                foreach (var uv in templateMeshUvs)
+                                    uvs.Add(uv);
+                                foreach (var n in templateMeshNormals)
+                                    normals.Add(n);
+                                foreach (var ind in templateMeshIndices)
+                                    faceIndices.Add(indexOffset + ind);
+                            }
                         }
                     }
-        }
+                }
 
         // constraints:
         // - must NEVER add empty submeshes to phys

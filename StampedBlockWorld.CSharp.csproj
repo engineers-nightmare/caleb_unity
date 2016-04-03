@@ -69,6 +69,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\BlockShape.cs" />
+    <Compile Include="Assets\Scripts\BlockShapeSet.cs" />
     <Compile Include="Assets\Scripts\ChunkData.cs" />
     <Compile Include="Assets\Scripts\ChunkMap.cs" />
     <Compile Include="Assets\Scripts\ChunkMesher.cs" />

@@ -12,6 +12,7 @@ ModelImporter:
     100008: surf_px
     100010: surf_py
     100012: surf_pz
+    100014: surf_special
     400000: //RootNode
     400002: frame
     400004: surf_ny
@@ -19,24 +20,28 @@ ModelImporter:
     400008: surf_px
     400010: surf_py
     400012: surf_pz
+    400014: surf_special
     2300000: frame
     2300002: surf_ny
     2300004: surf_nz
     2300006: surf_px
     2300008: surf_py
     2300010: surf_pz
+    2300012: surf_special
     3300000: frame
     3300002: surf_ny
     3300004: surf_nz
     3300006: surf_px
     3300008: surf_py
     3300010: surf_pz
+    3300012: surf_special
     4300000: frame
     4300002: surf_px
     4300004: surf_ny
     4300006: surf_py
     4300008: surf_nz
     4300010: surf_pz
+    4300012: surf_special
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -96,7 +101,7 @@ ModelImporter:
     rootMotionBoneName: 
     hasTranslationDoF: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 0
   humanoidOversampling: 1
   additionalBone: 0
   userData: 

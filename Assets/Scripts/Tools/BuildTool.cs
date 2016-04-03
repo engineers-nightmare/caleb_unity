@@ -8,15 +8,15 @@ public class BuildTool : MonoBehaviour
     public AudioClip RemoveBlockSound = null;
 
     public ChunkMap ChunkMapToEdit = null;
+    public BlockShapeSet Shapes = null;
 
-    public Mesh FrameMesh = null;
-    public Mesh[] SurfaceMeshes = new Mesh[6];
     public Material PreviewFrameMaterial = null;
     public Material PreviewSurfaceMaterial = null;
 
     public BuildToolMode ToolMode = BuildToolMode.Frame;
 
     public float ToolInputDuration = 0.5f;
+    public int BlockType = 1;
 
     private BuildToolInputAccumulator _inputAccumulator = new BuildToolInputAccumulator();
 
@@ -83,6 +83,20 @@ public class BuildTool : MonoBehaviour
     {
     }
 
+    int FaceMap(int block, int face)
+    {
+        // TODO: also remap missing parts of triangular faces to the special face.
+
+        if (block == 2)
+        {
+            // sloped
+            if (face == 1 || face == 5)
+                return 6;
+        }
+
+        return face;
+    }
+
     private void UpdatePreview(Ray ray, Vector3 rayOriginLocalSpace,
         Vector3 rayDirLocalSpace, float scale)
     {
@@ -94,19 +108,22 @@ public class BuildTool : MonoBehaviour
             var co = IntVec3.BlockCoordToChunkOffset(fc.pos);
             if (ce != null && ce.Contents[co.x, co.y, co.z] != 0)
             {
-                var faceIndex = NormalToFaceIndex(fc.normal);
+                var faceIndex = FaceMap(ce.Contents[co.x, co.y, co.z], NormalToFaceIndex(fc.normal));
 
                 var pv3 = ce.BlockNegativeCornerToWorldSpace(co);
 
                 switch (ToolMode)
                 {
                     case BuildToolMode.Frame:
-                        Graphics.DrawMesh(SurfaceMeshes[faceIndex], pv3, ceTrans.rotation, PreviewFrameMaterial, 0);
-                        pv3 = ce.BlockNegativeCornerToWorldSpace(co + fc.normal);
-                        Graphics.DrawMesh(FrameMesh, pv3, ceTrans.rotation, PreviewFrameMaterial, 0);
+                        Graphics.DrawMesh(Shapes.Shapes[ce.Contents[co.x, co.y, co.z]].FaceMeshes[faceIndex], pv3, ceTrans.rotation, PreviewFrameMaterial, 0);
+                        if (faceIndex != Constants.SpecialFace)
+                        {
+                            pv3 = ce.BlockNegativeCornerToWorldSpace(co + fc.normal);
+                            Graphics.DrawMesh(Shapes.Shapes[BlockType].FrameMesh, pv3, ceTrans.rotation, PreviewFrameMaterial, 0);
+                        }
                         return;
                     case BuildToolMode.Surface:
-                        Graphics.DrawMesh(SurfaceMeshes[faceIndex], pv3, ceTrans.rotation, PreviewSurfaceMaterial, 0);
+                        Graphics.DrawMesh(Shapes.Shapes[ce.Contents[co.x, co.y, co.z]].FaceMeshes[faceIndex], pv3, ceTrans.rotation, PreviewSurfaceMaterial, 0);
                         return;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -118,6 +135,7 @@ public class BuildTool : MonoBehaviour
     void OnGUI()
     {
         GUI.Label(new Rect(10, 10, 100, 20), ToolMode.ToString());
+        GUI.Label(new Rect(10, 30, 100, 20), string.Format("Block Type: {0}", BlockType));
     }
 
     void OnDrawGizmos()
@@ -137,6 +155,11 @@ public class BuildTool : MonoBehaviour
             {
                 ToolMode = BuildToolMode.Frame;
             }
+        }
+
+        if (Input.GetButtonDown("ToolAuxSwitch"))
+        {
+            BlockType = (BlockType - 1 + 1) % 2 + 1;    // TODO make this proper
         }
 
         var ray = Camera.main.ScreenPointToRay(new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 0));
@@ -214,7 +237,7 @@ public class BuildTool : MonoBehaviour
             var co = IntVec3.BlockCoordToChunkOffset(fc.pos);
             if (ce != null && ce.Contents[co.x, co.y, co.z] != 0)
             {
-                var faceIndex = NormalToFaceIndex(fc.normal);
+                var faceIndex = FaceMap(ce.Contents[co.x, co.y, co.z], NormalToFaceIndex(fc.normal));
                 if (ce.Faces[co.x, co.y, co.z, faceIndex] == 0)
                 {
                     ce.Faces[co.x, co.y, co.z, faceIndex] = 1;
@@ -236,7 +259,7 @@ public class BuildTool : MonoBehaviour
             var co = IntVec3.BlockCoordToChunkOffset(fc.pos);
             if (ce != null && ce.Contents[co.x, co.y, co.z] != 0)
             {
-                var faceIndex = NormalToFaceIndex(fc.normal);
+                var faceIndex = FaceMap(ce.Contents[co.x, co.y, co.z], NormalToFaceIndex(fc.normal));
                 if (ce.Faces[co.x, co.y, co.z, faceIndex] != 0)
                 {
                     ce.Faces[co.x, co.y, co.z, faceIndex] = 0;
@@ -258,15 +281,19 @@ public class BuildTool : MonoBehaviour
             var co = IntVec3.BlockCoordToChunkOffset(fc.pos);
             if (ce != null && ce.Contents[co.x, co.y, co.z] != 0)
             {
-                // Step back along normal.
-                var p = fc.pos + fc.normal;
-                var ce2 = ChunkMapToEdit.EnsureChunk(IntVec3.BlockCoordToChunkCoord(p));
-                var co2 = IntVec3.BlockCoordToChunkOffset(p);
+                var faceIndex = FaceMap(ce.Contents[co.x, co.y, co.z], NormalToFaceIndex(fc.normal));
+                if (faceIndex != Constants.SpecialFace)
+                {
+                    // Step back along normal.
+                    var p = fc.pos + fc.normal;
+                    var ce2 = ChunkMapToEdit.EnsureChunk(IntVec3.BlockCoordToChunkCoord(p));
+                    var co2 = IntVec3.BlockCoordToChunkOffset(p);
 
-                ce2.Contents[co2.x, co2.y, co2.z] = 1;
-                ce2.generation++;
+                    ce2.Contents[co2.x, co2.y, co2.z] = (byte)BlockType;
+                    ce2.generation++;
 
-                AudioSource.PlayClipAtPoint(PlaceBlockSound, ray.origin + fc.t * ray.direction);
+                    AudioSource.PlayClipAtPoint(PlaceBlockSound, ray.origin + fc.t * ray.direction);
+                }
                 break;
             }
         }

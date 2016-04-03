@@ -175,19 +175,14 @@ MonoBehaviour:
   PlaceBlockSound: {fileID: 8300000, guid: 5897aeed9b676024fbb8c694b421a861, type: 3}
   RemoveBlockSound: {fileID: 8300000, guid: 3b09d59f4499d45428baa7a21e954296, type: 3}
   ChunkMapToEdit: {fileID: 1993289171}
-  FrameMesh: {fileID: 4300000, guid: d9d69da4bedf28d4f8e2efb0ba3a8b1e, type: 3}
-  SurfaceMeshes:
-  - {fileID: 4300004, guid: d9d69da4bedf28d4f8e2efb0ba3a8b1e, type: 3}
-  - {fileID: 4300010, guid: d9d69da4bedf28d4f8e2efb0ba3a8b1e, type: 3}
-  - {fileID: 4300012, guid: d9d69da4bedf28d4f8e2efb0ba3a8b1e, type: 3}
-  - {fileID: 4300006, guid: d9d69da4bedf28d4f8e2efb0ba3a8b1e, type: 3}
-  - {fileID: 4300002, guid: d9d69da4bedf28d4f8e2efb0ba3a8b1e, type: 3}
-  - {fileID: 4300008, guid: d9d69da4bedf28d4f8e2efb0ba3a8b1e, type: 3}
+  Shapes: {fileID: 11412008, guid: 6210090a4ba9fe041957ac0a1905bbe5, type: 2}
   PreviewFrameMaterial: {fileID: 2100000, guid: 1751eb6c451e7874d8ebd6cc2e35fa29,
     type: 2}
   PreviewSurfaceMaterial: {fileID: 2100000, guid: 1751eb6c451e7874d8ebd6cc2e35fa29,
     type: 2}
   ToolMode: 0
+  ToolInputDuration: 0.5
+  BlockType: 1
 --- !u!4 &781334862
 Transform:
   m_ObjectHideFlags: 0

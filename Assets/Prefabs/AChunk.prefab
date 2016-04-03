@@ -100,14 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Data: {fileID: 11400584}
-  FrameMeshTemplate: {fileID: 4300000, guid: d9d69da4bedf28d4f8e2efb0ba3a8b1e, type: 3}
-  FaceMeshTemplates:
-  - {fileID: 4300004, guid: d9d69da4bedf28d4f8e2efb0ba3a8b1e, type: 3}
-  - {fileID: 4300010, guid: d9d69da4bedf28d4f8e2efb0ba3a8b1e, type: 3}
-  - {fileID: 4300012, guid: d9d69da4bedf28d4f8e2efb0ba3a8b1e, type: 3}
-  - {fileID: 4300006, guid: d9d69da4bedf28d4f8e2efb0ba3a8b1e, type: 3}
-  - {fileID: 4300002, guid: d9d69da4bedf28d4f8e2efb0ba3a8b1e, type: 3}
-  - {fileID: 4300008, guid: d9d69da4bedf28d4f8e2efb0ba3a8b1e, type: 3}
+  Shapes: {fileID: 11412008, guid: 6210090a4ba9fe041957ac0a1905bbe5, type: 2}
   OutputMeshFilter: {fileID: 3376238}
   OutputMeshCollider: {fileID: 6481274}
   OutputMeshRenderer: {fileID: 2335926}
