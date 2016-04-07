@@ -46,7 +46,7 @@ MonoBehaviour:
   - {fileID: 4300004, guid: bdaa21a014f3db84a953bb668e8c9dae, type: 3}
   - {fileID: 4300006, guid: bdaa21a014f3db84a953bb668e8c9dae, type: 3}
   - {fileID: 4300008, guid: bdaa21a014f3db84a953bb668e8c9dae, type: 3}
-  - {fileID: 4300008, guid: d9d69da4bedf28d4f8e2efb0ba3a8b1e, type: 3}
+  - {fileID: 0}
   - {fileID: 4300012, guid: bdaa21a014f3db84a953bb668e8c9dae, type: 3}
 --- !u!1001 &100100000
 Prefab:
