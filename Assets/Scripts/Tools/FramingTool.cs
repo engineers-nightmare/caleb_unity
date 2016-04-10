@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
+using Assets.Scripts.Tools;
 
 public class FramingTool : MonoBehaviour
 {
@@ -15,7 +17,9 @@ public class FramingTool : MonoBehaviour
     public float ToolInputDuration = 0.5f;
     public int BlockType = 1;
 
-    private BuildToolInputAccumulator _inputAccumulator = new BuildToolInputAccumulator();
+    private readonly BuildToolInputAccumulator _inputAccumulator = new BuildToolInputAccumulator();
+
+    private Dictionary<IntVec3, GameObject> buildHelpers = new Dictionary<IntVec3, GameObject>();
 
     static int NormalToFaceIndex(IntVec3 n)
     {
@@ -47,24 +51,6 @@ public class FramingTool : MonoBehaviour
         return face;
     }
 
-    private void UpdatePreview(Ray ray, Vector3 rayOriginLocalSpace,
-        Vector3 rayDirLocalSpace, float scale)
-    {
-        var ceTrans = ChunkMapToEdit.transform;
-
-        foreach (var fc in ChunkData.BlockCrossingsLocalSpace(rayOriginLocalSpace, rayDirLocalSpace, 5.0f))
-        {
-            var ce = ChunkMapToEdit.GetChunk(IntVec3.BlockCoordToChunkCoord(fc.pos));
-            var co = IntVec3.BlockCoordToChunkOffset(fc.pos);
-            if (ce != null && ce.Contents[co.x, co.y, co.z] != 0)
-            {
-                var pv3 = ce.BlockNegativeCornerToWorldSpace(co + fc.normal);
-                Graphics.DrawMesh(Shapes.Shapes[BlockType].FrameMesh, pv3, ceTrans.rotation, PreviewFrameMaterial, 0);
-                break;
-            }
-        }
-    }
-    
     private void Update()
     {
         if (Input.GetButtonDown("ToolAuxSwitch"))
@@ -86,78 +72,114 @@ public class FramingTool : MonoBehaviour
                         ? BuildToolInputType.Tertiary
                         : BuildToolInputType.None;
 
-        var doTool = false;
-        if (inputType != BuildToolInputType.None)
+        ChunkData chunkDataToEdit = null;
+        IntVec3 blockToEdit = new IntVec3(0, 0, 0);
+        int mappedFace = 0; 
+
+        foreach (var fc in ChunkData.BlockCrossingsLocalSpace(rayOriginLocalSpace, rayDirLocalSpace, 5.0f))
         {
-            doTool = _inputAccumulator.Increment(inputType,
-                Time.deltaTime, ToolInputDuration);
-        }
-        else
-        {
-            _inputAccumulator.Reset();
+            var ce = ChunkMapToEdit.GetChunk(IntVec3.BlockCoordToChunkCoord(fc.pos));
+            var co = IntVec3.BlockCoordToChunkOffset(fc.pos);
+            if (ce != null && ce.Contents[co.x, co.y, co.z] != 0)
+            {
+                chunkDataToEdit = ce;
+                blockToEdit = co;
+
+                // adding frame, so adjust position before continuing
+                if (inputType == BuildToolInputType.Primary)
+                {
+                    blockToEdit += fc.normal;
+                }
+
+                mappedFace = FaceMap(ce.Contents[co.x, co.y, co.z], NormalToFaceIndex(fc.normal));
+                break;
+            }
         }
 
-        if (doTool)
+        if (!chunkDataToEdit)
         {
+            return;
+        }
+
+        var doTool = inputType != BuildToolInputType.None;
+        var needHelper = CheckIfNeedHelper(inputType, chunkDataToEdit, blockToEdit, mappedFace);
+
+        if (doTool && needHelper)
+        {
+            var newBuildHelper = false;
+            GameObject helperGameObject;
+            BuildHelper helper = null;
+            if (!buildHelpers.TryGetValue(blockToEdit, out helperGameObject))
+            {
+                newBuildHelper = true;
+            }
+
+            // can be null if object was Destroy()ed
+            if (newBuildHelper ||
+                helperGameObject == null && !ReferenceEquals(helperGameObject, null))
+            {
+                helperGameObject = (GameObject)Instantiate(Resources.Load("BuildHelper"));
+                helper = helperGameObject.GetComponent<BuildHelper>();
+                helper.enabled = false;
+
+                // stomp old one/insert the new one
+                buildHelpers[blockToEdit] = helperGameObject;
+
+                newBuildHelper = true;
+            }
+            else
+            {
+                helper = helperGameObject.GetComponent<BuildHelper>();
+            }
+
             switch (inputType)
             {
                 case BuildToolInputType.Primary:
-                    PlaceFrame(ray, rayOriginLocalSpace, rayDirLocalSpace);
+                    if (newBuildHelper)
+                    {
+                        helper.StartFrameAction(ChunkMapToEdit, mappedFace, 1, blockToEdit,
+                            Shapes.Shapes[BlockType].FrameMesh, PreviewFrameMaterial);
+                    }
+                    else
+                    {
+                        helper.ActOn();
+                    }
                     break;
                 case BuildToolInputType.Secondary:
-                    RemoveFrame(ray, rayOriginLocalSpace, rayDirLocalSpace);
+                    if (newBuildHelper)
+                    {
+                        helper.StartFrameAction(ChunkMapToEdit, mappedFace, 0, blockToEdit,
+                            null, null);
+                    }
+                    else
+                    {
+                        helper.ActOn();
+                    }
                     break;
                 case BuildToolInputType.Tertiary:
                     break;
             }
         }
-
-        UpdatePreview(ray, rayOriginLocalSpace, rayDirLocalSpace,
-            _inputAccumulator.Duration / ToolInputDuration);
     }
 
-    // Place block tool -- places a block against the block we hit, sharing the face we hit
-    void PlaceFrame(Ray ray, Vector3 rayOriginLocalSpace, Vector3 rayDirLocalSpace)
+    private bool CheckIfNeedHelper(BuildToolInputType inputType,
+        ChunkData chunkDataToEdit, IntVec3 blockToEdit, int mappedFace)
     {
-        foreach (var fc in ChunkData.BlockCrossingsLocalSpace(rayOriginLocalSpace, rayDirLocalSpace, 5.0f))
+        var needed = false;
+        switch (inputType)
         {
-            var ce = ChunkMapToEdit.GetChunk(IntVec3.BlockCoordToChunkCoord(fc.pos));
-            var co = IntVec3.BlockCoordToChunkOffset(fc.pos);
-            if (ce != null && ce.Contents[co.x, co.y, co.z] != 0)
-            {
-                var faceIndex = FaceMap(ce.Contents[co.x, co.y, co.z], NormalToFaceIndex(fc.normal));
-                if (faceIndex != Constants.SpecialFace)
-                {
-                    // Step back along normal.
-                    var p = fc.pos + fc.normal;
-                    var ce2 = ChunkMapToEdit.EnsureChunk(IntVec3.BlockCoordToChunkCoord(p));
-                    var co2 = IntVec3.BlockCoordToChunkOffset(p);
-
-                    ce2.Contents[co2.x, co2.y, co2.z] = (byte)BlockType;
-                    ce2.generation++;
-
-                    AudioSource.PlayClipAtPoint(PlaceSound, ray.origin + fc.t * ray.direction);
-                }
+            case BuildToolInputType.Primary:
+                needed = mappedFace != Constants.SpecialFace;
                 break;
-            }
-        }
-    }
-
-    // Remove block tool -- removes the first block we hit
-    void RemoveFrame(Ray ray, Vector3 rayOriginLocalSpace, Vector3 rayDirLocalSpace)
-    {
-        foreach (var fc in ChunkData.BlockCrossingsLocalSpace(rayOriginLocalSpace, rayDirLocalSpace, 5.0f))
-        {
-            var ce = ChunkMapToEdit.GetChunk(IntVec3.BlockCoordToChunkCoord(fc.pos));
-            var co = IntVec3.BlockCoordToChunkOffset(fc.pos);
-            if (ce != null && ce.Contents[co.x, co.y, co.z] != 0)
-            {
-                ce.Contents[co.x, co.y, co.z] = 0;
-                ce.generation++;
-
-                AudioSource.PlayClipAtPoint(RemoveSound, ray.origin + fc.t * ray.direction);
+            case BuildToolInputType.Secondary:
+                var co = blockToEdit;
+                var contents = chunkDataToEdit.Contents[co.x, co.y, co.z];
+                needed = contents != 0;
                 break;
-            }
+            case BuildToolInputType.Tertiary:
+                break;
         }
+
+        return needed;
     }
 }
