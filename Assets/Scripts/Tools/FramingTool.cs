@@ -13,8 +13,7 @@ public class FramingTool : MonoBehaviour
     public BlockShapeSet Shapes = null;
 
     public Material PreviewFrameMaterial = null;
-
-    public float ToolInputDuration = 0.5f;
+    
     public int BlockType = 1;
 
     private readonly BuildToolInputAccumulator _inputAccumulator = new BuildToolInputAccumulator();
@@ -106,14 +105,11 @@ public class FramingTool : MonoBehaviour
 
         if (doTool && needHelper)
         {
-            var newBuildHelper = false;
             GameObject helperGameObject;
-            BuildHelper helper = null;
-            if (!buildHelpers.TryGetValue(blockToEdit, out helperGameObject))
-            {
-                newBuildHelper = true;
-            }
 
+            var newBuildHelper = !buildHelpers.TryGetValue(blockToEdit, out helperGameObject);
+
+            BuildHelper helper = null;
             // can be null if object was Destroy()ed
             if (newBuildHelper ||
                 helperGameObject == null && !ReferenceEquals(helperGameObject, null))
@@ -137,7 +133,7 @@ public class FramingTool : MonoBehaviour
                 case BuildToolInputType.Primary:
                     if (newBuildHelper)
                     {
-                        helper.StartFrameAction(ChunkMapToEdit, mappedFace, 1, blockToEdit,
+                        helper.StartFrameAction(ChunkMapToEdit, mappedFace, BlockType, blockToEdit,
                             Shapes.Shapes[BlockType].FrameMesh, PreviewFrameMaterial);
                     }
                     else

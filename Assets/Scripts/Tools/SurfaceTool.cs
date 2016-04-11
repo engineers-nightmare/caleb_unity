@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
+using Assets.Scripts.Tools;
 
 public class SurfaceTool : MonoBehaviour
 {
@@ -12,10 +14,10 @@ public class SurfaceTool : MonoBehaviour
 
     public Mesh[] SurfaceMeshes = new Mesh[6];
     public Material PreviewMaterial = null;
+    
+    public int SurfaceType = 1;
 
-    public float ToolInputDuration = 0.5f;
-
-    private BuildToolInputAccumulator _inputAccumulator = new BuildToolInputAccumulator();
+    private Dictionary<IntVec3, GameObject> buildHelpers = new Dictionary<IntVec3, GameObject>();
 
     static int NormalToFaceIndex(IntVec3 n)
     {
@@ -47,26 +49,6 @@ public class SurfaceTool : MonoBehaviour
         return face;
     }
 
-    private void UpdatePreview(Ray ray, Vector3 rayOriginLocalSpace,
-        Vector3 rayDirLocalSpace, float scale)
-    {
-        var ceTrans = ChunkMapToEdit.transform;
-
-        foreach (var fc in ChunkData.BlockCrossingsLocalSpace(rayOriginLocalSpace, rayDirLocalSpace, 5.0f))
-        {
-            var ce = ChunkMapToEdit.GetChunk(IntVec3.BlockCoordToChunkCoord(fc.pos));
-            var co = IntVec3.BlockCoordToChunkOffset(fc.pos);
-            if (ce != null && ce.Contents[co.x, co.y, co.z] != 0)
-            {
-                var faceIndex = FaceMap(ce.Contents[co.x, co.y, co.z], NormalToFaceIndex(fc.normal));
-
-                var pv3 = ce.BlockNegativeCornerToWorldSpace(co);
-                Graphics.DrawMesh(Shapes.Shapes[ce.Contents[co.x, co.y, co.z]].FaceMeshes[faceIndex], pv3, ceTrans.rotation, PreviewMaterial, 0);
-                break;
-            }
-        }
-    }
-
     private void Update()
     {
         var ray = Camera.main.ScreenPointToRay(new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2, 0));
@@ -84,36 +66,87 @@ public class SurfaceTool : MonoBehaviour
                         ? BuildToolInputType.Tertiary
                         : BuildToolInputType.None;
 
-        var doTool = false;
-        if (inputType != BuildToolInputType.None)
+        ChunkData chunkDataToEdit = null;
+        IntVec3 blockToEdit = new IntVec3(0, 0, 0);
+        int mappedFace = 0;
+
+        foreach (var fc in ChunkData.BlockCrossingsLocalSpace(rayOriginLocalSpace, rayDirLocalSpace, 5.0f))
         {
-            doTool = _inputAccumulator.Increment(inputType,
-                Time.deltaTime, ToolInputDuration);
-        }
-        else
-        {
-            _inputAccumulator.Reset();
+            var ce = ChunkMapToEdit.GetChunk(IntVec3.BlockCoordToChunkCoord(fc.pos));
+            var co = IntVec3.BlockCoordToChunkOffset(fc.pos);
+            if (ce != null && ce.Contents[co.x, co.y, co.z] != 0)
+            {
+                chunkDataToEdit = ce;
+                blockToEdit = co;
+
+                mappedFace = FaceMap(ce.Contents[co.x, co.y, co.z], NormalToFaceIndex(fc.normal));
+                break;
+            }
         }
 
+        if (!chunkDataToEdit)
+        {
+            return;
+        }
+
+        var doTool = inputType != BuildToolInputType.None;
+    
         if (doTool)
         {
-            // this section is kind of gross
+            GameObject helperGameObject;
+
+            var newBuildHelper = !buildHelpers.TryGetValue(blockToEdit, out helperGameObject);
+
+            BuildHelper helper = null;
+            if (newBuildHelper ||
+                helperGameObject == null && !ReferenceEquals(helperGameObject, null))
+            {
+                helperGameObject = (GameObject)Instantiate(Resources.Load("BuildHelper"));
+                helper = helperGameObject.GetComponent<BuildHelper>();
+                helper.enabled = false;
+
+                // stomp old one/insert the new one
+                buildHelpers[blockToEdit] = helperGameObject;
+
+                newBuildHelper = true;
+            }
+            else
+            {
+                helper = helperGameObject.GetComponent<BuildHelper>();
+            }
+
             switch (inputType)
             {
-                
                 case BuildToolInputType.Primary:
-                    PlaceSurface(ray, rayOriginLocalSpace, rayDirLocalSpace);
+                    if (newBuildHelper)
+                    {
+                        var co = blockToEdit;
+                        var mesh = Shapes.Shapes[chunkDataToEdit.Contents[co.x, co.y, co.z]].FaceMeshes[mappedFace];
+                        helper.StartSurfaceAction(ChunkMapToEdit, mappedFace, SurfaceType, blockToEdit,
+                            mesh, PreviewMaterial);
+                    }
+                    else
+                    {
+                        helper.ActOn();
+                    }
                     break;
                 case BuildToolInputType.Secondary:
-                    RemoveSurface(ray, rayOriginLocalSpace, rayDirLocalSpace);
+                    if (newBuildHelper)
+                    {
+                        var co = blockToEdit;
+                        var mesh = Shapes.Shapes[chunkDataToEdit.Contents[co.x, co.y, co.z]].FaceMeshes[mappedFace];
+                        helper.StartSurfaceAction(ChunkMapToEdit, mappedFace, 0, blockToEdit,
+                            mesh, PreviewMaterial);
+                    }
+                    else
+                    {
+                        helper.ActOn();
+                    }
                     break;
                 case BuildToolInputType.Tertiary:
                     break;
             }
         }
-
-        UpdatePreview(ray, rayOriginLocalSpace, rayDirLocalSpace,
-            _inputAccumulator.Duration / ToolInputDuration);
     }
 
     // Surface placement
