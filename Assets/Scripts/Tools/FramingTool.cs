@@ -76,88 +76,105 @@ public class FramingTool : MonoBehaviour
 
         ChunkData chunkDataToEdit = null;
         IntVec3 blockToEdit = new IntVec3(0, 0, 0);
-        int mappedFace = 0; 
+        int mappedFace = 0;
 
-        foreach (var fc in ChunkData.BlockCrossingsLocalSpace(rayOriginLocalSpace, rayDirLocalSpace, 5.0f))
-        {
-            var ce = ChunkMapToEdit.GetChunk(IntVec3.BlockCoordToChunkCoord(fc.pos));
-            var co = IntVec3.BlockCoordToChunkOffset(fc.pos);
-            if (ce != null && ce.Contents[co.x, co.y, co.z] != 0)
-            {
-                chunkDataToEdit = ce;
-                blockToEdit = co;
-
-                // adding frame, so adjust position before continuing
-                if (inputType == BuildToolInputType.Primary)
-                {
-                    blockToEdit += fc.normal;
-                }
-
-                mappedFace = FaceMap(ce.Contents[co.x, co.y, co.z], NormalToFaceIndex(fc.normal));
-                break;
-            }
-        }
-
-        if (!chunkDataToEdit)
+        if (!TryGetHelperData(rayOriginLocalSpace, rayDirLocalSpace, inputType,
+            ref chunkDataToEdit, ref blockToEdit, ref mappedFace))
         {
             return;
         }
 
-        var doTool = inputType != BuildToolInputType.None;
-        var needHelper = CheckIfNeedHelper(inputType, chunkDataToEdit, blockToEdit, mappedFace);
+        var doTool = inputType != BuildToolInputType.None &&
+            CheckIfNeedHelper(inputType, chunkDataToEdit, blockToEdit, mappedFace);
 
-        if (doTool && needHelper)
+        if (doTool)
         {
-            GameObject helperGameObject;
-
-            var newBuildHelper = !buildHelpers.TryGetValue(blockToEdit, out helperGameObject);
-
-            BuildHelper helper = null;
-            // can be null if object was Destroy()ed
-            if (newBuildHelper || helperGameObject.IsDestroyed())
-            {
-                helperGameObject = Instantiate(BuildHelperGameObject);
-                helper = helperGameObject.GetComponent<BuildHelper>();
-                helper.enabled = false;
-
-                // stomp old one/insert the new one
-                buildHelpers[blockToEdit] = helperGameObject;
-
-                newBuildHelper = true;
-            }
-            else
-            {
-                helper = helperGameObject.GetComponent<BuildHelper>();
-            }
-
-            switch (inputType)
-            {
-                case BuildToolInputType.Primary:
-                    if (newBuildHelper)
-                    {
-                        helper.StartFrameAction(ChunkMapToEdit, mappedFace, BlockType, blockToEdit,
-                            Shapes.Shapes[BlockType].FrameMesh, PreviewFrameMaterial);
-                    }
-                    else
-                    {
-                        helper.ActOn();
-                    }
-                    break;
-                case BuildToolInputType.Secondary:
-                    if (newBuildHelper)
-                    {
-                        helper.StartFrameAction(ChunkMapToEdit, mappedFace, 0, blockToEdit,
-                            null, null);
-                    }
-                    else
-                    {
-                        helper.ActOn();
-                    }
-                    break;
-                case BuildToolInputType.Tertiary:
-                    break;
-            }
+            PerformToolAction(blockToEdit, inputType, mappedFace);
         }
+    }
+
+    private void PerformToolAction(IntVec3 blockToEdit,
+        BuildToolInputType inputType, int mappedFace)
+    {
+        GameObject helperGameObject;
+
+        var newBuildHelper = !buildHelpers.TryGetValue(blockToEdit, out helperGameObject);
+
+        BuildHelper helper = null;
+        // can be null if object was Destroy()ed
+        if (newBuildHelper || helperGameObject.IsDestroyed())
+        {
+            helperGameObject = Instantiate(BuildHelperGameObject);
+            helper = helperGameObject.GetComponent<BuildHelper>();
+            helper.enabled = false;
+
+            // stomp old one/insert the new one
+            buildHelpers[blockToEdit] = helperGameObject;
+
+            newBuildHelper = true;
+        }
+        else
+        {
+            helper = helperGameObject.GetComponent<BuildHelper>();
+        }
+
+        switch (inputType)
+        {
+            case BuildToolInputType.Primary:
+                if (newBuildHelper)
+                {
+                    helper.StartFrameAction(ChunkMapToEdit, mappedFace, BlockType, blockToEdit,
+                        Shapes.Shapes[BlockType].FrameMesh, PreviewFrameMaterial);
+                }
+                else
+                {
+                    helper.ActOn();
+                }
+                break;
+            case BuildToolInputType.Secondary:
+                if (newBuildHelper)
+                {
+                    helper.StartFrameAction(ChunkMapToEdit, mappedFace, 0, blockToEdit,
+                        null, null);
+                }
+                else
+                {
+                    helper.ActOn();
+                }
+                break;
+            case BuildToolInputType.Tertiary:
+                break;
+        }
+    }
+
+    private bool TryGetHelperData(Vector3 rayOriginLocalSpace, Vector3 rayDirLocalSpace, BuildToolInputType inputType,
+        ref ChunkData chunkDataToEdit, ref IntVec3 blockToEdit, ref int mappedFace)
+    {
+        var found = false;
+        foreach (var fc in ChunkData.BlockCrossingsLocalSpace(rayOriginLocalSpace, rayDirLocalSpace, 5.0f))
+        {
+            var ce = ChunkMapToEdit.GetChunk(IntVec3.BlockCoordToChunkCoord(fc.pos));
+            var co = IntVec3.BlockCoordToChunkOffset(fc.pos);
+            if (ce == null || ce.Contents[co.x, co.y, co.z] == 0)
+            {
+                continue;
+            }
+
+            chunkDataToEdit = ce;
+            blockToEdit = co;
+
+            // adding frame, so adjust position before continuing
+            if (inputType == BuildToolInputType.Primary)
+            {
+                blockToEdit += fc.normal;
+            }
+
+            mappedFace = FaceMap(ce.Contents[co.x, co.y, co.z], NormalToFaceIndex(fc.normal));
+            found = true;
+            break;
+        }
+
+        return found;
     }
 
     private bool CheckIfNeedHelper(BuildToolInputType inputType,

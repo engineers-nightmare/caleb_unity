@@ -73,21 +73,8 @@ public class SurfaceTool : MonoBehaviour
         IntVec3 blockToEdit = new IntVec3(0, 0, 0);
         int mappedFace = 0;
 
-        foreach (var fc in ChunkData.BlockCrossingsLocalSpace(rayOriginLocalSpace, rayDirLocalSpace, 5.0f))
-        {
-            var ce = ChunkMapToEdit.GetChunk(IntVec3.BlockCoordToChunkCoord(fc.pos));
-            var co = IntVec3.BlockCoordToChunkOffset(fc.pos);
-            if (ce != null && ce.Contents[co.x, co.y, co.z] != 0)
-            {
-                chunkDataToEdit = ce;
-                blockToEdit = co;
-
-                mappedFace = FaceMap(ce.Contents[co.x, co.y, co.z], NormalToFaceIndex(fc.normal));
-                break;
-            }
-        }
-
-        if (!chunkDataToEdit)
+        if (!TryGetSurfaceHelperData(rayOriginLocalSpace, rayDirLocalSpace, ref chunkDataToEdit, ref blockToEdit,
+            ref mappedFace))
         {
             return;
         }
@@ -96,59 +83,91 @@ public class SurfaceTool : MonoBehaviour
     
         if (doTool)
         {
-            GameObject helperGameObject;
-
-            var newBuildHelper = !buildHelpers.TryGetValue(blockToEdit, out helperGameObject);
-
-            BuildHelper helper = null;
-            if (newBuildHelper || helperGameObject.IsDestroyed())
-            {
-                helperGameObject = Instantiate(BuildHelperGameObject);
-                helper = helperGameObject.GetComponent<BuildHelper>();
-                helper.enabled = false;
-
-                // stomp old one/insert the new one
-                buildHelpers[blockToEdit] = helperGameObject;
-
-                newBuildHelper = true;
-            }
-            else
-            {
-                helper = helperGameObject.GetComponent<BuildHelper>();
-            }
-
-            switch (inputType)
-            {
-                case BuildToolInputType.Primary:
-                    if (newBuildHelper)
-                    {
-                        var co = blockToEdit;
-                        var mesh = Shapes.Shapes[chunkDataToEdit.Contents[co.x, co.y, co.z]].FaceMeshes[mappedFace];
-                        helper.StartSurfaceAction(ChunkMapToEdit, mappedFace, SurfaceType, blockToEdit,
-                            mesh, PreviewMaterial);
-                    }
-                    else
-                    {
-                        helper.ActOn();
-                    }
-                    break;
-                case BuildToolInputType.Secondary:
-                    if (newBuildHelper)
-                    {
-                        var co = blockToEdit;
-                        var mesh = Shapes.Shapes[chunkDataToEdit.Contents[co.x, co.y, co.z]].FaceMeshes[mappedFace];
-                        helper.StartSurfaceAction(ChunkMapToEdit, mappedFace, 0, blockToEdit,
-                            mesh, PreviewMaterial);
-                    }
-                    else
-                    {
-                        helper.ActOn();
-                    }
-                    break;
-                case BuildToolInputType.Tertiary:
-                    break;
-            }
+            PerformToolAction(blockToEdit, inputType, chunkDataToEdit, mappedFace);
         }
+    }
+
+    private void PerformToolAction(IntVec3 blockToEdit, BuildToolInputType inputType, ChunkData chunkDataToEdit,
+        int mappedFace)
+    {
+        GameObject helperGameObject;
+
+        var newBuildHelper = !buildHelpers.TryGetValue(blockToEdit, out helperGameObject);
+
+        BuildHelper helper = null;
+        if (newBuildHelper || helperGameObject.IsDestroyed())
+        {
+            helperGameObject = Instantiate(BuildHelperGameObject);
+            helper = helperGameObject.GetComponent<BuildHelper>();
+            helper.enabled = false;
+
+            // stomp old one/insert the new one
+            buildHelpers[blockToEdit] = helperGameObject;
+
+            newBuildHelper = true;
+        }
+        else
+        {
+            helper = helperGameObject.GetComponent<BuildHelper>();
+        }
+
+        switch (inputType)
+        {
+            case BuildToolInputType.Primary:
+                if (newBuildHelper)
+                {
+                    var co = blockToEdit;
+                    var mesh = Shapes.Shapes[chunkDataToEdit.Contents[co.x, co.y, co.z]].FaceMeshes[mappedFace];
+                    helper.StartSurfaceAction(ChunkMapToEdit, mappedFace, SurfaceType, blockToEdit,
+                        mesh, PreviewMaterial);
+                }
+                else
+                {
+                    helper.ActOn();
+                }
+                break;
+            case BuildToolInputType.Secondary:
+                if (newBuildHelper)
+                {
+                    var co = blockToEdit;
+                    var mesh = Shapes.Shapes[chunkDataToEdit.Contents[co.x, co.y, co.z]].FaceMeshes[mappedFace];
+                    helper.StartSurfaceAction(ChunkMapToEdit, mappedFace, 0, blockToEdit,
+                        mesh, PreviewMaterial);
+                }
+                else
+                {
+                    helper.ActOn();
+                }
+                break;
+            case BuildToolInputType.Tertiary:
+                break;
+        }
+    }
+
+    private bool TryGetSurfaceHelperData(Vector3 rayOriginLocalSpace,
+        Vector3 rayDirLocalSpace, ref ChunkData chunkDataToEdit,
+        ref IntVec3 blockToEdit, ref int mappedFace)
+    {
+        var found = false;
+        foreach (var fc in ChunkData.BlockCrossingsLocalSpace(rayOriginLocalSpace, rayDirLocalSpace, 5.0f))
+        {
+            var ce = ChunkMapToEdit.GetChunk(IntVec3.BlockCoordToChunkCoord(fc.pos));
+            var co = IntVec3.BlockCoordToChunkOffset(fc.pos);
+
+            if (ce == null || ce.Contents[co.x, co.y, co.z] == 0)
+            {
+                continue;
+            }
+
+            chunkDataToEdit = ce;
+            blockToEdit = co;
+
+            mappedFace = FaceMap(ce.Contents[co.x, co.y, co.z], NormalToFaceIndex(fc.normal));
+            found = true;
+            break;
+        }
+
+        return found;
     }
 
     // Surface placement
