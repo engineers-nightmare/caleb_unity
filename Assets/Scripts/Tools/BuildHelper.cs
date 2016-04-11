@@ -191,21 +191,19 @@ namespace Assets.Scripts.Tools
 
         private void OnGUI()
         {
-            GUI.enabled = isActiveAndEnabled;
-
             if (!GUI.enabled)
             {
                 return;
             }
-
-            Camera cam = Camera.main;
-            var pos = ChunkDataToEdit.BlockNegativeCornerToWorldSpace(EditPosition);
-            Vector3 sPos = cam.WorldToScreenPoint(pos);
+            var cam = Camera.main;
+            var pos = ChunkDataToEdit.BlockNegativeCornerToWorldSpace(EditPosition) +
+                new Vector3(0.5f, 0.5f, 0.5f);
+            var sPos = cam.WorldToScreenPoint(pos);
 
             string str;
             if (Time.time - LastInteractionTime <= TimeBeforeInactive)
             {
-                str = string.Format("{0}%", CurrentActionTime / MaxActionTime);
+                str = string.Format("{0}%", (Math.Round(CurrentActionTime / MaxActionTime * 100)));
             }
             else
             {

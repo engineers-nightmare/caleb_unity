@@ -267,8 +267,9 @@ MonoBehaviour:
   Shapes: {fileID: 11412008, guid: 6210090a4ba9fe041957ac0a1905bbe5, type: 2}
   PreviewFrameMaterial: {fileID: 2100000, guid: 1751eb6c451e7874d8ebd6cc2e35fa29,
     type: 2}
-  ToolInputDuration: 0.5
   BlockType: 1
+  BuildHelperGameObject: {fileID: 121118, guid: 89464eb7f1158bc44a666dd15540dc88,
+    type: 2}
 --- !u!1 &990383859
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,7 +457,9 @@ MonoBehaviour:
   - {fileID: 4300002, guid: d9d69da4bedf28d4f8e2efb0ba3a8b1e, type: 3}
   - {fileID: 4300008, guid: d9d69da4bedf28d4f8e2efb0ba3a8b1e, type: 3}
   PreviewMaterial: {fileID: 2100000, guid: 1751eb6c451e7874d8ebd6cc2e35fa29, type: 2}
-  ToolInputDuration: 0.5
+  SurfaceType: 1
+  BuildHelperGameObject: {fileID: 121118, guid: 89464eb7f1158bc44a666dd15540dc88,
+    type: 2}
 --- !u!143 &1791444505 stripped
 CharacterController:
   m_PrefabParentObject: {fileID: 14300000, guid: 5e9e851c0e142814dac026a256ba2ac0,

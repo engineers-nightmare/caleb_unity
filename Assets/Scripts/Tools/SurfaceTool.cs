@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using System.Collections.Generic;
+using Assets.Scripts;
 using Assets.Scripts.Tools;
 
 public class SurfaceTool : MonoBehaviour
@@ -16,6 +17,8 @@ public class SurfaceTool : MonoBehaviour
     public Material PreviewMaterial = null;
     
     public int SurfaceType = 1;
+
+    public GameObject BuildHelperGameObject;
 
     private Dictionary<IntVec3, GameObject> buildHelpers = new Dictionary<IntVec3, GameObject>();
 
@@ -98,10 +101,9 @@ public class SurfaceTool : MonoBehaviour
             var newBuildHelper = !buildHelpers.TryGetValue(blockToEdit, out helperGameObject);
 
             BuildHelper helper = null;
-            if (newBuildHelper ||
-                helperGameObject == null && !ReferenceEquals(helperGameObject, null))
+            if (newBuildHelper || helperGameObject.IsDestroyed())
             {
-                helperGameObject = (GameObject)Instantiate(Resources.Load("BuildHelper"));
+                helperGameObject = Instantiate(BuildHelperGameObject);
                 helper = helperGameObject.GetComponent<BuildHelper>();
                 helper.enabled = false;
 

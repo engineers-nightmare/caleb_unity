@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using System.Collections.Generic;
+using Assets.Scripts;
 using Assets.Scripts.Tools;
 
 public class FramingTool : MonoBehaviour
@@ -15,6 +16,8 @@ public class FramingTool : MonoBehaviour
     public Material PreviewFrameMaterial = null;
     
     public int BlockType = 1;
+
+    public GameObject BuildHelperGameObject;
 
     private readonly BuildToolInputAccumulator _inputAccumulator = new BuildToolInputAccumulator();
 
@@ -111,10 +114,9 @@ public class FramingTool : MonoBehaviour
 
             BuildHelper helper = null;
             // can be null if object was Destroy()ed
-            if (newBuildHelper ||
-                helperGameObject == null && !ReferenceEquals(helperGameObject, null))
+            if (newBuildHelper || helperGameObject.IsDestroyed())
             {
-                helperGameObject = (GameObject)Instantiate(Resources.Load("BuildHelper"));
+                helperGameObject = Instantiate(BuildHelperGameObject);
                 helper = helperGameObject.GetComponent<BuildHelper>();
                 helper.enabled = false;
 
